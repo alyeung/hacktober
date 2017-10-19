@@ -1,0 +1,780 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "Promotion APIs",
+		"description": "Digital Commerce Promotion APIs",
+		"version": "1.0.0"
+	},
+	"schemes": ["https",
+	"http"],
+	"basePath": "/v2/promotions",
+	"produces": ["application/json"],
+	"paths": {
+		"/browse": {
+			"post": {
+				"summary": "Search for Promotions based on specified criteria.",
+				"description": "Lookup Promotions based on multiple search criteria. This is used to drive marketing offers. The actual manifestation of promotional discounts is part of the products or carts operations.",
+				"parameters": [{
+					"name": "Authorization",
+					"in": "header",
+					"required": false,
+					"type": "string",
+					"description": "Format \"Authorization Bearer <<OAuth Token>>\""
+				},
+				{
+					"name": "Content-Type",
+					"in": "header",
+					"type": "string",
+					"required": true,
+					"description": "Request message format as application/json or application/xml (default assumed application/json)"
+				},
+				{
+					"name": "Accept",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+				},
+				{
+					"name": "api-version",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "API version."
+				},
+				{
+					"name": "channelId",
+					"in": "header",
+					"type": "string",
+					"enum": ["WEB",
+					"RETAIL",
+					"CARE",
+					"NA"],
+					"required": false,
+					"description": "Channel identifier. NA is treated as default."
+				},
+				{
+					"name": "applicationId",
+					"in": "header",
+					"type": "string",
+					"enum": ["TMO",
+					"MYTMO",
+					"NA"],
+					"required": false,
+					"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+				},
+				{
+					"name": "interactionId",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+				},
+				{
+					"name": "storeId",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). "
+				},
+				{
+					"name": "body",
+					"in": "body",
+					"description": "request containing the search criteria",
+					"schema": {
+						"$ref": "#/definitions/promoSearchCriteria"
+					}
+				}],
+				"tags": ["promotions"],
+				"responses": {
+					"200": {
+						"description": "List of Promotions details",
+						"schema": {
+							"$ref": "#/definitions/promotionDetails"
+						}
+					},
+					"400": {
+						"description": "invalid request",
+						"schema": {
+							"$ref": "#/definitions/errorDetails"
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"schema": {
+							"$ref": "#/definitions/errorDetails"
+						}
+					},
+					"500": {
+						"description": "Unanticipated error",
+						"schema": {
+							"$ref": "#/definitions/errorDetails"
+						}
+					},
+					"503": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/errorDetails"
+						}
+					}
+				}
+			}
+		},
+		"/basic-info/": {
+			"post": {
+				"summary": "Get details for specified promotion.",
+				"description": "Get Promotion details.",
+				"parameters": [{
+					"name": "Authorization",
+					"in": "header",
+					"required": false,
+					"type": "string",
+					"description": "Format \"Authorization Bearer <<OAuth Token>>\""
+				},
+				{
+					"name": "Content-Type",
+					"in": "header",
+					"type": "string",
+					"required": true,
+					"description": "Request message format as application/json or application/xml (default assumed application/json)"
+				},
+				{
+					"name": "Accept",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+				},
+				{
+					"name": "api-version",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "API version."
+				},
+				{
+					"name": "channelId",
+					"in": "header",
+					"type": "string",
+					"enum": ["WEB",
+					"RETAIL",
+					"CARE",
+					"NA"],
+					"required": false,
+					"description": "Channel identifier. NA is treated as default."
+				},
+				{
+					"name": "applicationId",
+					"in": "header",
+					"type": "string",
+					"enum": ["TMO",
+					"MYTMO",
+					"NA"],
+					"required": false,
+					"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+				},
+				{
+					"name": "interactionId",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+				},
+				{
+					"name": "storeId",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "Unique identifier for the retail store location. Mandatory for FullService  (TMobile RETAIL channel). "
+				},
+				{
+					"name": "body",
+					"in": "body",
+					"schema": {
+						"$ref": "#/definitions/promoNames"
+					}
+				}],
+				"tags": ["promotions"],
+				"responses": {
+					"200": {
+						"description": "Promotions details",
+						"schema": {
+							"$ref": "#/definitions/basicPromotionDetails"
+						}
+					},
+					"400": {
+						"description": "invalid request",
+						"schema": {
+							"$ref": "#/definitions/errorDetails"
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"schema": {
+							"$ref": "#/definitions/errorDetails"
+						}
+					},
+					"500": {
+						"description": "Unanticipated error",
+						"schema": {
+							"$ref": "#/definitions/errorDetails"
+						}
+					},
+					"503": {
+						"description": "Unexpected error",
+						"schema": {
+							"$ref": "#/definitions/errorDetails"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"errors": {
+			"type": "array",
+			"items": {
+				"properties": {
+					"code": {
+						"type": "string"
+					},
+					"userMessage": {
+						"type": "string"
+					},
+					"systemMessage": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"metadata": {
+			"type": "object",
+			"properties": {
+				"totalPages": {
+					"description": "Total pages based on per page record count",
+					"type": "string"
+				},
+				"pageSize": {
+					"type": "string"
+				},
+				"currentPageItems": {
+					"type": "string"
+				},
+				"pageNumber": {
+					"description": "The current page number",
+					"type": "string"
+				},
+				"totalRecordCount": {
+					"type": "string"
+				}
+			}
+		},
+		"promoNames": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/promoName"
+			}
+		},
+		"promoName": {
+			"description": "Promo to lookup",
+			"type": "string"
+		},
+		"promoSearchCriteria": {
+			"type": "object",
+			"properties": {
+				"shopper": {
+					"type": "object",
+					"description": "Details about the customer to return relavent promotions for.",
+					"properties": {
+						"salesChannel": {
+							"$ref": "#/definitions/salesChannel"
+						},
+						"customerSegment": {
+							"type": "string",
+							"description": "customer segment defined in promotion engine."
+						},
+						"market": {
+							"type": "string",
+							"description": "Market of the Customer",
+							"enum": ["MAINLAND",
+							"PUERTORICO"]
+						},
+						"customerId": {
+							"type": "string",
+							"description": "ID of the Customer"
+						},
+						"customerType": {
+							"type": "string",
+							"description": "Prospect or Subscriber"
+						},
+						"zipCode": {
+							"type": "string",
+							"description": "postal code to qualify for promotion offers"
+						},
+						"accountType": {
+							"type": "string",
+							"description": "Account type is individual or business"
+						},
+						"accountSubType": {
+							"type": "string",
+							"description": "Sub type of the account that further narrows the criteria ex. Regular, VIP etc. "
+						},
+						"crpid": {
+							"type": "string",
+							"description": "crpid (Credit Risk Profile) of subscriber."
+						}
+					}
+				},
+				"products": {
+					"type": "array",
+					"description": "List of products to search for match promotions for.",
+					"items": {
+						"$ref": "#/definitions/product"
+					}
+				},
+				"promotions": {
+					"type": "object",
+					"properties": {
+						"promoName": {
+							"type": "string",
+							"description": "Name of the promotion"
+						},
+						"pricingOption": {
+							"type": "string",
+							"description": "price option for the device. This could be Full price or financed",
+							"enum": ["FRP",
+							"EIP"]
+						},
+						"promotionTypes": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/promotionType"
+							}
+						},
+						"transactionTypes": {
+							"type": "array",
+							"minItems": 1,
+							"items": {
+								"$ref": "#/definitions/transactionType"
+							}
+						},
+						"discountType": {
+							"type": "string",
+							"description": "This describes how the discount applies.",
+							"enum": ["PAYNOW",
+							"RECURRING",
+							"BILLCREDIT",
+							"REBATE",
+							"SHIPPING"]
+						},
+						"startDate": {
+							"type": "string",
+							"format": "dateTime",
+							"description": "Start date and time of the promotion"
+						},
+						"endDate": {
+							"type": "string",
+							"format": "dateTime",
+							"description": "End date and time of the promotion"
+						},
+						"campaignId": {
+							"type": "string",
+							"description": "ID of the campaign under which is the promotion is offered."
+						},
+						"keywords": {
+							"type": "string",
+							"description": "Comma separated category keywords to search promotions for. This can be anything the marketing determines. ex. Marketing team can define trade-in as a keyword and consumers can search by that keyword to get list of promotions tagged with those keywords."
+						},
+						"transactionDate": {
+							"type": "string",
+							"format": "dateTime",
+							"description": "Date that the transaction is being made."
+						},
+						"groupPromoId": {
+							"type": "array",
+							"items": ["type": "string"]
+						}
+					}
+				}
+			}
+		},
+		"transactionType": {
+			"type": "string",
+			"description": "Transaction type",
+			"enum": ["ACTIVATION",
+			"UPGRADE",
+			"ADDLINE",
+			"JUMPUPGRADE"]
+		},
+		"salesChannel": {
+			"type": "string",
+			"description": "Sales channel of the promotion",
+			"minItems": 1,
+			"enum": ["WEB",
+			"IOT",
+			"APP",
+			"SOCIAL",
+			"IVR",
+			"RETAIL",
+			"CARE",
+			"TELESALES"]
+		},
+		"promotionType": {
+			"type": "string",
+			"description": "Type of promotion",
+			"enum": ["CATALOG",
+			"CART",
+			"TRADEIN"]
+		},
+		"basicPromotion": {
+			"type": "object",
+			"properties": {
+				"promoName": {
+					"type": "string",
+					"description": "Name of the promotion that is being returned."
+				},
+				"promoCustomerFacingName": {
+					"type": "string",
+					"description": "Customer facing name for promotion"
+				},
+				"longDescriptionHtml": {
+					"type": "string",
+					"description": "Promotion html description"
+				},
+				"longDescription": {
+					"type": "string",
+					"description": "Promotion description"
+				},
+				"startDate": {
+					"type": "string",
+					"format": "dateTime",
+					"description": "Start date for promotion"
+				},
+				"endDate": {
+					"type": "string",
+					"format": "dateTime",
+					"description": "End date of the promotion"
+				},
+				"promotionType": {
+					"$ref": "#/definitions/promotionType"
+				}
+			}
+		},
+		"promotion": {
+			"type": "object",
+			"properties": {
+				"promoName": {
+					"type": "string",
+					"description": "Name of the promotion that is being returned."
+				},
+				"promoCustomerFacingName": {
+					"type": "string",
+					"description": "Customer facing name for promotion"
+				},
+				"longDescriptionHtml": {
+					"type": "string",
+					"description": "Promotion html description"
+				},
+				"longDescription": {
+					"type": "string",
+					"description": "Promotion description"
+				},
+				"promotionType": {
+					"$ref": "#/definitions/promotionType"
+				},
+				"tradeInIntent": {
+					"type": "string",
+					"description": "intent of trade-in the customer is making",
+					"enum": ["CARRIERFREEDOM",
+					"STANDARTRADEIN",
+					"TRADEINPROMOTION"]
+				},
+				"transactionType": {
+					"$ref": "#/definitions/transactionType"
+				},
+				"couponCodes": {
+					"type": "array",
+					"description": "Coupon code type defined in the commerce engine.",
+					"items": {
+						"type": "string"
+					}
+				},
+				"startDate": {
+					"type": "string",
+					"format": "dateTime",
+					"description": "Start date for promotion"
+				},
+				"endDate": {
+					"type": "string",
+					"format": "dateTime",
+					"description": "End date of the promotion"
+				},
+				"groupPromoId": {
+					"type": "string",
+					"description": "This is the hop id."
+				},
+				"defaultOfferId": {
+					"type": "string",
+					"description": "This base Offer that this promo is targeting."
+				},
+				"defaultSku": {
+					"type": "string",
+					"description": "This base Sku that this promo is targeting."
+				},
+				"defaultTradeInDeviceModel": {
+					"type": "string",
+					"description": "This base trade in model that this promo is targeting."
+				},
+				"defaultPrice": {
+					"type": "string",
+					"description": "This price (typically best available) that this promo is targeting."
+				},
+				"itemsInCondition": {
+					"type": "array",
+					"description": "List of itemTypes that are required to meet the criteria for the promotion.",
+					"items": {
+						"type": "object",
+						"properties": {
+							"itemType": {
+								"type": "string",
+								"description": "Type of product that is required to meet the criteria for this promotion.",
+								"enum": ["OFFERID",
+								"SKU",
+								"SOC",
+								"TRADEINMODEL"]
+							},
+							"items": {
+								"type": "array",
+								"description": "Collection of Socs, Skus, ProductFamilies, or Trade-In model skus.",
+								"items": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"discounts": {
+					"type": "array",
+					"description": "FILL IN",
+					"items": {
+						"type": "object",
+						"properties": {
+							"discountActionOn": {
+								"type": "string",
+								"description": "This describes how the discount is applied.",
+								"enum": ["SKU",
+								"CART",
+								"SHIPPING",
+								"ACCOUNT",
+								"REBATE"]
+							},
+							"discountSchedule": {
+								"type": "string",
+								"description": "This describes when the discount is applied.",
+								"enum": ["IMMEDIATE",
+								"DEFERRED"]
+							},
+							"pricingOption": {
+								"type": "array",
+								"description": "List of recurring discounts with a value and a supressFMV boolean",
+								"items": {
+									"type": "object",
+									"properties": {
+										"pricingType": {
+											"type": "string",
+											"description": "Type of pricing available for this promo.",
+											"enum": ["FRP",
+											"EIP"]
+										},
+										"pricingCreditLevels": {
+											"type": "array",
+											"items": {
+												"type": "string",
+												"description": "Type of pricing available for this promo."
+											}
+										}
+									}
+								}
+							},
+							"discountTotal": {
+								"type": "number",
+								"description": "Total amount of the discount to be applied."
+							},
+							"immediateDiscountValue": {
+								"type": "number",
+								"description": "Value of the discounts that will be applied immediately."
+							},
+							"recurringItem": {
+								"type": "object",
+								"properties": {
+									"recurringItemDiscount": {
+										"type": "number",
+										"description": "Value of the recurring discount."
+									},
+									"recurringCreditDiscountType": {
+										"type": "string",
+										"description": "This describes when the discount is applied.",
+										"enum": ["RECURRING",
+										"LUMPSUM",
+										"N/A"]
+									},
+									"recurringCreditDiscountValue": {
+										"type": "array",
+										"description": "List of recurring discounts with a value and a supressFMV boolean",
+										"items": {
+											"type": "object",
+											"properties": {
+												"itemType": {
+													"type": "string",
+													"description": "Type of credit for this promo.",
+													"enum": ["INSTANTTRADEIN",
+													"DEFERREDTRADEIN",
+													"INSTANT",
+													"DEFERRED"]
+												},
+												"recurringCredit": {
+													"type": "number",
+													"description": "Amount of the recurring credit.",
+													
+												},
+												"suppressFMV": {
+													"type": "boolean",
+													"description": "For the TradeIn scenarios, indicates if the FMV should be not be shown."
+												}
+											}
+										}
+									},
+									"recurringDuration": {
+										"type": "string",
+										"description": "Time period that the recurring discount will continue for.",
+										"enum": ["24",
+										"18",
+										"DEFAULT",
+										"N/A"]
+									}
+								}
+							}
+						},
+						
+					}
+				}
+			}
+		},
+		"basicPromotionDetails": {
+			"type": "object",
+			"properties": {
+				"errors": {
+					"$ref": "#/definitions/errors"
+				},
+				"metadata": {
+					"$ref": "#/definitions/metadata"
+				},
+				"promotions": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/basicPromotion"
+					}
+				}
+			}
+		},
+		"promotionDetails": {
+			"type": "object",
+			"properties": {
+				"errors": {
+					"$ref": "#/definitions/errors"
+				},
+				"metadata": {
+					"$ref": "#/definitions/metadata"
+				},
+				"promotions": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/promotion"
+					}
+				}
+			}
+		},
+		"product": {
+			"type": "object",
+			"properties": {
+				"offerId": {
+					"type": "array",
+					"description": "Collection of product family ids. Use this to get list of promotions for devices in the given Product Family.",
+					"items": {
+						"type": "string"
+					}
+				},
+				"offerType": {
+					"type": "string",
+					"description": "Type of offer. Hard goods or Soft goods. Use this to get promotions based on offer type",
+					"enum": ["HARDGOODS",
+					"SOFTGOODS"]
+				},
+				"offerSubType": {
+					"type": "string",
+					"description": "sub Type of offer. BASE or Add on. Use this to get promotions based on offer type",
+					"enum": ["BASE",
+					"ADDON"]
+				},
+				"productType": {
+					"type": "string",
+					"description": "Type of product. Device, Plan, Services, or Accessories to search for promotions for.",
+					"enum": ["DEVICE",
+					"PLAN",
+					"SERVICES",
+					"ACCESSORIES"]
+				},
+				"productSubType": {
+					"type": "string",
+					"description": "Type of product. Device, Plan, Services, or Accessories to search for promotions for.",
+					"enum": ["PHONE",
+					"TABLET",
+					"WEARABLE",
+					"IOT",
+					"SIMKIT",
+					"OTHERACCESSORY"]
+				},
+				"newItemSku": {
+					"type": "array",
+					"description": "Collection of skus to find promotions for.",
+					"items": {
+						"type": "string"
+					}
+				},
+				"newItemSoc": {
+					"type": "array",
+					"description": "Collection of SOCs to find promotions for.",
+					"items": {
+						"type": "string"
+					}
+				},
+				"tradeInDeviceModel": {
+					"type": "string",
+					"description": "Model of the device"
+				}
+			}
+		},
+		"errorDetails": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"$ref": "#/definitions/status"
+				},
+				"errors": {
+					"$ref": "#/definitions/errors"
+				}
+			}
+		},
+		"status": {
+			"type": "object",
+			"properties": {
+				"code": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}

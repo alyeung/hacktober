@@ -1,0 +1,2875 @@
+{
+	"swagger": "2.0",
+    "info": {
+        "title": "Profile",
+        "description": "Digital Commerce APIs covering Profile, Address, Account, credit-profiles and finance resources used typically in checkout flows",
+        "version": "1.0.0"
+    },
+    "host": "commerce.digital.t-mobile.com",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/v2",
+	"consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+		"/profiles": {
+            "get": {
+                "summary": "Get default profile associated with current token.",
+                "description": "Get default profile associated with current token.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format (default is application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable. Currently only application/json is supported"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    }
+                ],
+                "tags": [
+                    "Profiles"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Profile Response",
+                        "schema": {
+                            "$ref": "#/definitions/profile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            }
+        },
+		"/profiles/{profileId}": {
+            "get": {
+                "operationId": "getProfile",
+                "summary": "Get profile by profile id which is the system generated resource identifier",
+                "description": "Get the requested profile details.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Profiles"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profile details",
+                        "schema": {
+                            "$ref": "#/definitions/profile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            },
+			"put": {
+                "operationId": "updateProfile",
+                "summary": "Update profile by profile id which is system generated encoded resource identifier",
+                "description": "Update profile by profile id.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+						"description": "Encoded profile Id returned in the get profile API response."
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "profile details",
+                        "schema": {
+                            "$ref": "#/definitions/updateProfileRequest"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Profiles"
+                ],
+                "responses": {
+                    "200": {
+					 "description": "profile details",
+                        "schema": {
+                            "$ref": "#/definitions/profile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+			}
+		},
+		"/profiles/{profileId}/accounts": {
+            "post": {
+                "summary": "Add account information to the current profile.",
+                "description": "Add account information associated with the profile. This information is used to pass downstream for fulfillment and provisioning.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,						
+                        "description": "Profile id for which account needs to be created",
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "description": "Account details for the account which needs to be created",
+                        "schema": {
+                            "$ref": "#/definitions/addAccountRequest"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Accounts"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created Account",
+                        "schema": {
+                            "$ref": "#/definitions/account"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            },
+			"get": {
+			    "summary": "Get all accounts associated with the current token/profile.",
+                "description": "Get all accounts for the profile. Token in the header is used to identify the associated profile. Account resource is created only for activation flow. For logged in user, binding will be done from customer data store.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,						
+                        "description": "Profile id for which account needs to be created",
+                        "type": "string"
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    }
+                ],
+                "tags": [
+                    "Accounts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all accounts associated with the profile",
+                        "schema": {
+                            "$ref": "#/definitions/accounts"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+			}
+        },
+		"/profiles/{profileId}/accounts/{accountId}": {
+            "put": {
+                "summary": "Update account information for the specified account resource.",
+                "description": "Update account information for the specified account resource.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Profile id for which account needs to be created",
+                        "type": "string"
+                    },
+                    {
+                        "name": "accountId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+						"description": "Encoded account Id returned in the get account API response."
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "description": "Account details for the account which needs to be updated",
+                        "schema": {
+                            "$ref": "#/definitions/updateAccountRequest"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Accounts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated Account",
+                        "schema": {
+                            "$ref": "#/definitions/account"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            },
+			"delete": {
+                "summary": "Delete account information associated with the account resource id.",
+                "description": "Delete account info by account id from the commerce system. This operation is used when the temporary account info in billing system is removed/purged. ",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Profile id for which account needs to be created",
+                        "type": "string"
+                    },
+                    {
+                        "name": "accountId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+                        "description": "Encoded account Id returned in the get account API response."
+                    }
+                ],
+                "tags": [
+                    "Accounts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/accounts"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            }
+        },
+		"/addresses":{
+			"post":{
+			    "summary": "Add address with the specified type like BILLING/SHIPPING/PPU/E911.",
+                "description": "Add address with the specified type like BILLING/SHIPPING/PPU/E911",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "description": "Address details.",
+                        "schema": {
+                            "$ref": "#/definitions/addAddressRequest"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Addresses"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created address",
+                        "schema": {
+                            "$ref": "#/definitions/address"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+			}, 
+			"get":{
+				"summary": "Get all address associated with the profile.",
+                "description": "Get all address associated with the profile.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+					{
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "description": "Address type to get the specific address by type like shipping, billing, ppu, e911."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    }
+                ],
+                "tags": [
+                    "Addresses"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of addresses for the profile.",
+                        "schema": {
+                            "$ref": "#/definitions/addresses"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }			
+			}
+		},
+		"/addresses/{addressId}": {
+            "put": {
+                "summary": "Update address.",
+                "description": "Update address.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "addressId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+						"description": "Encoded address Id returned in the get address API response."
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "description": "Account details for the account which needs to be updated",
+                        "schema": {
+                            "$ref": "#/definitions/updateAddressRequest"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Addresses"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated Account",
+                        "schema": {
+                            "$ref": "#/definitions/address"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            },
+			"delete": {
+                "summary": "Delete address.",
+                "description": "Delete address by address id.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "addressId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+                        "description": "Encoded address Id returned in the get address API response."
+                    }
+                ],
+                "tags": [
+                    "Accounts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Address deleted successfully"
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            },
+			"get":{
+				"summary": "Get address associated with the profile by address id.",
+                "description": "Get all address associated with the profile by address id.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "addressId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+                        "description": "Encoded address Id returned in the get address API response."
+                    }
+                ],
+                "tags": [
+                    "Addresses"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Address associated with the profile by address id.",
+                        "schema": {
+                            "$ref": "#/definitions/address"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }			
+			}
+        },
+		"/credit-profiles": {
+            "post": {
+                "summary": "The credit profile captures the credit check information which is the outcome of the credit check. Credit Info can be updated independent of the profile itself.",
+                "description": "The credit profile captures the credit check information which is the outcome of the credit check. Credit Info can be updated independent of the profile itself.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "description": "Credit profile details.",
+                        "schema": {
+                            "$ref": "#/definitions/addCreditProfileRequest"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Credit profile"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created Credit Profile",
+                        "schema": {
+                            "$ref": "#/definitions/creditProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            },
+			"get": {
+			    "summary": "Get credit profile for the given customer on the basis of token.",
+                "description": "Get credit profile for the given customer. Token in the header is used to identify the associated customer.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    }
+                ],
+                "tags": [
+                    "Credit profile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Credit profile for the customer",
+                        "schema": {
+                            "$ref": "#/definitions/creditProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+			}
+        },
+		"/credit-profiles/{creditProfileId}": {
+			"get": {
+			    "summary": "Get credit profile by credit profile id.",
+                "description": "Get credit profile by credit profile id.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "creditProfileId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+                        "description": "Credit ProfileId."
+                    }
+                ],
+                "tags": [
+                    "Credit profile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Credit profile for the customer",
+                        "schema": {
+                            "$ref": "#/definitions/creditProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+			},
+			"delete": {
+                "summary": "Delete credit profile by credit profile id.",
+                "description": "Delete credit profile by credit profile id.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "creditProfileId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+                        "description": "Encoded creditProfileId returned in the get credit Profile API response."
+                    }
+                ],
+                "tags": [
+                    "Credit profile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Credit profile deleted successfully"
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            },
+			"put": {
+                "summary": "Update credit profile by credit profile id.",
+                "description": "Update credit profile by credit profile id.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "creditProfileId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+						"description": "Encoded account Id returned in the get account API response."
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "description": "Encoded creditProfileId returned in the get credit Profile API response.",
+                        "schema": {
+                            "$ref": "#/definitions/updateCreditProfileRequest"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Credit profile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated Credit Profile",
+                        "schema": {
+                            "$ref": "#/definitions/creditProfile"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            }
+        },
+		"/profiles/{profileId}/accounts/{accountId}/finances": {
+            "post": {
+                "summary": "API to add the finance details for the particual account in the profile.",
+                "description": "API to add the finance details for the particual account in the profile.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Profile id specific to customer returned in get profile API response.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "accountId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+						"description": "Encoded account Id returned in the get account API response."
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "description": "Credit profile details.",
+                        "schema": {
+                            "$ref": "#/definitions/finance"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Finance"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Finance data added to account.",
+                        "schema": {
+                            "$ref": "#/definitions/finance"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            },
+			"get": {
+			    "summary": "Get finance data for the account.",
+                "description": "Get finance data for the account.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Profile id specific to customer returned in get profile API response.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "accountId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+						"description": "Encoded account Id returned in the get account API response."
+                    }
+                ],
+                "tags": [
+                    "Finance"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Finance data for the account.",
+                        "schema": {
+                            "$ref": "#/definitions/finances"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+			},
+			"put": {
+                "summary": "Update finance data for the account.",
+                "description": "Update finance data for the account.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },        
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Profile id specific to customer returned in get profile API response.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "accountId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true,
+						"description": "Encoded account Id returned in the get account API response."
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "description": "Finance data which needs to be updated.",
+                        "schema": {
+                            "$ref": "#/definitions/finance"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Finance"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated Finance data for Account successfully.",
+                        "schema": {
+                            "$ref": "#/definitions/finance"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            }
+        }
+  	},
+    "definitions": {
+        "errors": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "userMessage": {
+                        "type": "string"
+                    },
+                    "systemMessage": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "profile": {
+			"type": "object",
+			"required": [
+				"firstName",
+				"lastName",
+				"emailId"					
+			],
+            "properties": {
+                "contactConsentVersionId": {
+                    "type": "string",
+                    "description":"Contact consent version ID"
+                },
+                "firstName": {
+                    "type": "string",
+                    "description":"First Name"
+                },
+                "middleName": {
+                    "type": "string",
+                    "description":"Middle Name"
+                },
+				"lastName": {
+					"type": "string",
+                    "description":"Last Name"
+				},
+				"phoneNo": {
+					"type": "string",
+                    "description":"Phone number"
+				},
+				"carrier": {
+					"type": "string",
+                    "description":"Previous carrier"
+				},
+                "emailId": {
+					"type": "string",
+                    "description":"Email id"
+				},
+                "creditLevel": {
+					"type": "string",
+                    "description":"Credit level"
+				},
+                "pin": {
+					"type": "string",
+                    "description":"Customer PIN"
+				},
+                "tmobileid": {
+					"type": "string",
+                    "description":"T-Mobile ID"
+				},
+				"profileId": {
+					"type": "string",
+					"description": "System generated encoded resource id returned in GET operations only. Not applicable for any UPDATE"
+				}	
+            }
+        },
+		"updateProfileRequest": {
+            "$ref":"#/definitions/profile"
+        },
+		"addAccountRequest": {
+            "$ref":"#/definitions/account"
+        },
+		"account": {
+			"type": "object",
+			"required": [
+				"accountNumber",
+				"accountStatus",
+				"accountType",
+				"accountSubType"				
+			],
+            "properties": {
+                "accountNumber": {
+                    "type": "string",
+                    "description":"Billing account number"
+                },
+                "accountStatus": {
+                    "type": "string",
+                    "description":"Account status"
+                },
+                "accountType": {
+                    "type": "string",
+                    "description":"Account type"
+                },
+				"accountSubType": {
+					"type": "string",
+                    "description":"Account sub type"
+				},
+				"billingCycleCode": {
+					"type": "string",
+                    "description":"Billing cycle code"
+				},
+				"taxExemptEligibility": {
+					"type": "string",
+                    "description":"Tax Exempt Eligibility"
+				},
+				"accountId": {
+					"type": "string",
+					"description": "encoded account id generated by DCP which is used for update/delete operations"
+				}				
+            }
+        },
+		"accounts": {
+			"type": "object",
+            "properties": {
+				"accounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/account"
+                    }
+                }
+			}
+        },
+		"updateAccountRequest": {
+            "$ref":"#/definitions/account"
+        },
+		"addAddressRequest": {
+           "$ref":"#/definitions/address"
+		},
+		"updateAddressRequest":{
+		    "$ref":"#/definitions/address"
+        },
+		"addresses":{
+			"type": "object",
+            "properties": {
+				"addresses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/address"
+                    }
+                }
+			}
+		},
+		"address": {
+			"type": "object",
+			"required": [
+				"firstName",
+				"lastName",
+				"address1",
+				"address2",
+				"country",
+				"state",
+				"city",
+				"zipCode",
+				"addressType"				
+			],
+            "properties": {
+				"firstName": {
+                    "type": "string",
+                    "description": "First Name on Address"
+                },
+				"lastName": {
+                    "type": "string",
+                    "description": "Last Name  on Address"
+                },
+                "address1": {
+                    "type": "string",
+                    "description": "street address or Address Line 1"
+                },
+                "address2": {
+                    "type": "string",
+                    "description": "extended address or Address Line 2. ex. Apt/Unit etc."
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country name"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "State"
+                },
+                "city": {
+                    "type": "string",
+                    "description": "city"
+                },
+                "zipCode": {
+                    "type": "string",
+                    "description": "postal code"
+                },
+                "zipCodeExtension": {
+                    "type": "string",
+                    "description": "4 digit postal code extension"
+                },
+                "externalAddressId": {
+                    "type": "string",
+                    "description": "externalAddressId. Some backend processing systems need this."
+                },
+				"geoTaxKeyO": {
+                    "type": "string",
+                    "description": "Tax Code corresponding to the geoLoca used by Vertex-O. Some backend processing systems need this."
+                },
+				"geoTaxKeyQ": {
+                    "type": "string",
+                    "description": "Tax Code corresponding to the geoLoca used by Vertex-Q. Some backend processing systems need this."
+                },
+				"latitude": {
+                    "type": "string",
+                    "description": "latitude. Some backend systems may need this"
+                },
+				"longitude": {
+                    "type": "string",
+                    "description": "longitude. Some backend systems may need this"
+                },
+				"overrideIndicator": {
+                    "type": "string",
+                    "description": "Flag indicating if the suggested address was overridden by User"
+                },
+				"resultNumber": {
+                    "type": "string",
+                    "description": "resultNumber from Address Validation system. Some backend systems need this."
+                },
+				"addressType": {
+                    "type": "string",
+					"description": "Type of address.",
+                    "enum": [
+                        "BILLING",
+                        "SHIPPING",
+                        "PPU",
+                        "E911"
+                    ]
+                },
+				"externalAddressId": {
+                    "type": "string",
+                    "description": "External address ID is used to fetch the address from other integrated system which can return the full address by using this external address id. If external address id is passed then all other fields are optional for add address."
+                },
+				"addressId": {
+                    "type": "string",
+                    "description": "Encoded address ID specific to DCP which is basically used in case of UPDATE/DELETE address operations."
+                }				
+            }
+        },
+		"addCreditProfileRequest": {
+            "$ref": "#/definitions/creditProfile"
+        },
+		"updateCreditProfileRequest": {
+            "$ref": "#/definitions/creditProfile"
+        },
+		"creditProfile": {
+			"type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string",
+                    "description":"First Name of the customer."
+                },
+                "lastName": {
+                    "type": "string",
+                    "description":"Last Name of the customer."
+                },
+                "identifier": {
+                    "type": "string",
+                    "description":"Unique identifier for the customer."
+                },
+				"description": {
+					"type": "string",
+                    "description":"Description specific to customer."
+				},
+				"accountTenure": {
+					"type": "string",
+                    "description":"Duration of the account for the customer."
+				},
+				"behaviorScore": {
+					"type": "string",
+                    "description":"It is outcome of credit decision and will be used by some backend system during fulfillment."
+				},
+				"creditAppRefId": {
+					"type": "string",
+                    "description":"It is credit application number in credit system and will be used by some backend system during fulfillment."
+				},
+				"creditClass": {
+					"type": "string",
+                    "description":"Credit class as a Credit risk profile id."
+				},
+				"decisionCriteria": {
+					"type": "string",
+                    "description":"It is outcome of credit decision system and will be used by some backend system during fulfillment."
+				},
+				"creditProfileId": {
+					"type": "string",
+					"description": "Encoded credit Profile id specific to DCP which is used in case of update credit Profile API."
+				}				
+            }
+        },
+		"finance": {
+			"type": "object",
+			"required": [
+				"disclosureUrl",
+				"documentId",
+				"eipPlanId",
+				"status"
+			],
+            "properties": {
+                "disclosureUrl": {
+                    "type": "string",
+                    "description":"It is Docusign URL."
+                },
+                "documentId": {
+                    "type": "string",
+                    "description":"It is document id from Docusign."
+                },
+                "eipPlanId": {
+                    "type": "string",
+                    "description":"This is EIP plan id from Loan and Lease system."
+                },
+				"status": {
+					"type": "string",
+                    "description":"Indicates the status of the EIP agreements."
+				}			
+            }
+        },
+		"finances": {
+			"type": "object",
+            "properties": {
+				"finances": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/finance"
+                    }
+                }
+			}
+        }
+    }
+}

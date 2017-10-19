@@ -1,0 +1,797 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "products",
+    "description": "Digital Commerce product-catalog APIs",
+    "version": "1.0.0"
+  },
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "basePath": "/v1/products",
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Get info for specified product.",
+        "description": "returns product details\nUsage:\n1. /v1/products (All products)\n2. /v1/products?detailed=true|false&sku={SKU}\n3. /v1/products?\ndetailed=true|false&type=DEVICE,ACCESSORIES,WEARABLE,TABLET,SIMS,HOTSPOTS&sub-type=HANDSET&count=5&page=3&sort=relevance:asc|desc,best-seller:asc|desc,rating:asc|desc,name:asc|desc\n4./v1/products/{id}?detailed=true|false\n5. /v1/products?ids=id1,id2,....id_n& detailed\n=true|false",
+        "parameters": [
+          {
+            "name": "sku",
+            "in": "query",
+            "description": "If Sku is present rest parameters ignored",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "description": "Comma seperated product Ids",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type of products, comma seperated values from enum. If not specified defaults to ALL.",
+            "type": "string",
+            "enum": [
+              "DEVICE",
+              "ACCESSORIES",
+              "WEARABLE",
+              "TABLET",
+              "SIMS",
+              "HOTSPOTS"
+            ],
+            "required": false
+          },
+          {
+            "name": "subType",
+            "in": "query",
+            "description": "sub type of products. If not specified defaults to ALL.",
+            "type": "string",
+            "enum": [
+              "HANDSET"
+            ],
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort type comma seperated values. If not specified defaults to best-seller and asc.",
+            "type": "string",
+            "enum": [
+              "relevance:asc|desc",
+              "relevance",
+              "best-seller:asc|desc",
+              "best-seller",
+              "rating:asc|desc",
+              "rating",
+              "name:asc|desc",
+              "name",
+              "price:asc|desc",
+              "price",
+              "featued:asc|desc",
+              "featued"
+            ],
+            "required": false
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Count per page. If not specified defaults to 10.",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "current page number. If not specified defaults to 1.",
+            "type": "integer",
+            "required": false
+          },
+          {
+            "name": "detailed",
+            "in": "query",
+            "description": "If false -Response will have summary else complete details. Default is false",
+            "type": "string",
+            "enum": [
+              true,
+              false
+            ],
+            "required": false
+          },
+          {
+            "name": "manufacturer",
+            "in": "query",
+            "description": "Manufacturer comma seperated values e.g. Samsung, Apple, LG",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "condition",
+            "in": "query",
+            "description": "condition comma seperated values e.g. New, Pre-Owned",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "os",
+            "in": "query",
+            "description": "os comma seperated values e.g. Andriod, iOS, windows",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "features",
+            "in": "query",
+            "description": "features comma seperated values e.g. 4G, LTE, Wi-Fi Calling",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "priceRange",
+            "in": "query",
+            "description": "priceRange of product e.g. $0-$15 or $100-$300",
+            "type": "string",
+            "required": false
+          },
+          {
+            "name": "accryCatReq",
+            "in": "query",
+            "description": "If false -Response will not have list of accessory Catagory. Default is false",
+            "type": "string",
+            "enum": [
+              true,
+              false
+            ],
+            "required": false
+          },
+          {
+            "name": "accesoryCategory",
+            "in": "query",
+            "description": "If any values is passed, returns the list of all accessory catagory e.g. CASE",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "tags": [
+          "Product Browse Details",
+          "Product Carousal",
+          "Accessory Browse Details",
+          "Internet Browse Details",
+          "featured products detail"
+        ],
+        "responses": {
+          "200": {
+            "description": "product details",
+            "schema": {
+              "$ref": "#/definitions/productDetails"
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            }
+          },
+          "503": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            }
+          }
+        }
+      }
+    },
+    "/{productID}": {
+      "get": {
+        "summary": "Get info for specified product family ID.",
+        "description": "returns product details\nUsage:\n1. /v1/products/{productID} \n2. /v1/products/{productID}?detailed=true",
+        "parameters": [
+          {
+            "name": "productID",
+            "in": "path",
+            "description": "Product family ID",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "detailed",
+            "in": "query",
+            "description": "If false - Response will have summary else complete details. Default is false",
+            "type": "string",
+            "enum": [
+              true,
+              false
+            ],
+            "required": false
+          }
+        ],
+        "tags": [
+          "Product Family Details",
+          "SIM KIT details"
+        ],
+        "responses": {
+          "200": {
+            "description": "product details",
+            "schema": {
+              "$ref": "#/definitions/productDetails"
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            }
+          },
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            },
+            "description": "Not found"
+          },
+          "503": {
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            },
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/filters": {
+      "get": {
+        "summary": "Get info for filtered dat",
+        "description": "returns filter data details\nUsage:\n1.",
+        "tags": [
+          "Products",
+          "Reference Data"
+        ],
+        "responses": {
+          "200": {
+            "description": "filter details",
+            "schema": {
+              "$ref": "#/definitions/filterDetails"
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            }
+          },
+          "503": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/errorDetails"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "errors": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "userMessage": {
+            "type": "string"
+          },
+          "systemMessage": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "filter": {
+      "type": "object",
+      "properties": {
+        "heading": {
+          "enum": [
+            "Manufacturer",
+            "Condition",
+            "OS",
+            "Features",
+            "Price Range",
+            "Sort By"
+          ],
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "value": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "filterPath": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "queryParam": {
+          "enum": [
+            "manufacturer",
+            "condition",
+            "os",
+            "features",
+            "priceRange",
+            "sort"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "filterDetails": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "errors": {
+          "$ref": "#/definitions/errors"
+        },
+        "metadata": {
+          "$ref": "#/definitions/metadata"
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/filter"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "totalPages": {
+          "description": "Total pages based on per page record count",
+          "type": "string"
+        },
+        "pageSize": {
+          "type": "string"
+        },
+        "currentPageItems": {
+          "type": "string"
+        },
+        "pageNumber": {
+          "description": "The current page number",
+          "type": "string"
+        },
+        "totalRecordCount": {
+          "type": "string"
+        }
+      }
+    },
+    "product": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "longDescription": {
+          "type": "string"
+        },
+        "offerId": {
+          "type": "string"
+        },
+        "offerSubtype": {
+          "type": "string"
+        },
+        "offerType": {
+          "type": "string"
+        },
+        "familyId": {
+          "type": "string"
+        },
+        "familyName": {
+          "type": "string"
+        },
+        "manufacturer": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "subType": {
+          "type": "string"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+			  "type": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "itemDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sku": {
+                "type": "string"
+              },
+              "isDefaultSKU": {
+                "type": "boolean"
+              },
+              "isSpecialOfferSku": {
+                "type": "boolean"
+              },
+              "deviceId": {
+                "type": "string"
+              },
+			  "accessoryId": {
+                "type": "string"
+              },
+              "condition": {
+                "type": "string"
+              },
+              "inventoryStatus": {
+                "type": "string"
+              },
+              "skuAvailableDate": {
+                "type": "string"
+              },
+              "color": {
+                "type": "string"
+              },
+              "memory": {
+                "type": "string"
+              },
+              "averageRating": {
+                "type": "string"
+              },
+              "reviewCount": {
+                "type": "integer"
+              },
+              "reviewStarImagePath": {
+                "type": "string"
+              },
+              "badgesAndPromotions": {
+                "type": "object",
+                "properties": {
+                  "isBogo": {
+                    "type": "boolean"
+                  },
+                  "onSale": {
+                    "type": "boolean"
+                  },
+                  "isSpecialoffer": {
+                    "type": "boolean"
+                  },
+                  "webOnly": {
+                    "type": "boolean"
+                  },
+                  "others": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "specifications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "price": {
+                "type": "object",
+                "properties": {
+                  "strikePrice": {
+                    "type": "number"
+                  },
+                  "listPrice": {
+                    "type": "number"
+                  },
+                  "frp": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "frpValue": {
+                          "type": "string"
+                        },
+                        "discounts": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "descriptionText": {
+                                "type": "string"
+                              },
+                              "discountedValue": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "finance": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "financeType": {
+                          "type": "string"
+                        },
+                        "contractTerm": {
+                          "type": "number"
+                        },
+                        "payNowGoodCredit": {
+                          "type": "string"
+                        },
+                        "payNowBuildCredit": {
+                          "type": "string"
+                        },
+                        "monthlyGoodCredit": {
+                          "type": "string"
+                        },
+                        "monthlyBuildCredit": {
+                          "type": "string"
+                        },
+                        "payNowNocredit": {
+                          "type": "string"
+                        },
+                        "discounts": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "descriptionText": {
+                                "type": "string"
+                              },
+                              "discountedValue": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "images": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "imgtype": {
+                      "type": "string",
+                      "enum": [
+                        "PRODUCTIMAGE",
+                        "FRONTIMAGE",
+                        "BACKIMAGE",
+                        "LEFTIMAGE",
+                        "RIGHTIMAGE",
+                        "COLORSWATCH"
+                      ]
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "attributes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "recommndedProducts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productCode": {
+                "type": "string"
+              },
+              "sku": {
+                "type": "string"
+              },
+              "productName": {
+                "type": "string"
+              },
+              "productImage": {
+                "type": "string"
+              },
+              "listPrice": {
+                "type": "string"
+              },
+              "purchasePrice": {
+                "type": "string"
+              },
+              "payNowGoodCredit": {
+                "type": "string"
+              },
+              "payNowBuildCredit": {
+                "type": "string"
+              },
+              "monthlyGoodCredit": {
+                "type": "string"
+              },
+              "monthlyBuildCredit": {
+                "type": "string"
+              },
+              "payNowNocredit": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "accessoriesCategory": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "productDetails": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "errors": {
+          "$ref": "#/definitions/errors"
+        },
+        "metadata": {
+          "$ref": "#/definitions/metadata"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/product"
+          }
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/filter"
+          }
+        },
+        "sort": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/sort"
+          }
+        }
+      }
+    },
+    "sort": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "errorDetails": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "errors": {
+          "$ref": "#/definitions/errors"
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

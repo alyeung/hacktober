@@ -1,0 +1,904 @@
+{
+	"swagger": "2.0",
+    "info": {
+        "title": "Order",
+        "description": "Digital Commerce APIs covering Submit order and get order details API",
+        "version": "1.0.0"
+    },
+    "host": "commerce.digital.t-mobile.com",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/v2",
+	"consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+		"/orders/{extCartId}": {
+            "post": {
+                "summary": "Submit order API.",
+                "description": "This API is used to submit the order as per the current cart state.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format (default is application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable. Currently only application/json is supported"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "follow",
+                        "in": "header",
+                        "type": "boolean",
+                        "required": false,
+                        "description": "If true, does not return the resource detail after performing the action. Default false"
+                    },
+                    {
+                        "name": "extCartId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+						"description":"This is extended Cart id in checkout mode which links data like shipping and payments to the cart."
+                    }
+                ],
+                "tags": [
+                    "Orders"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Order submitted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/order"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            }
+    },
+		"/orders/{extOrderId}": {
+            "get": {
+                "operationId": "getOrderDetailsByOrderId",
+                "summary": "Get Order details by Commerce platform generated Order Id. ExtOrderId is basically encoded value for Commerce platform order number.",
+                "description": "Get Order details by Commerce platform generated Order Id. ExtOrderId is basically encoded value for Commerce platform order number.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "extOrderId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "It is basically encoded value for Commerce platform generated order number."
+                    }
+                ],
+                "tags": [
+                    "Orders"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order details",
+                        "schema": {
+                            "$ref": "#/definitions/order"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errors"
+                        }
+                    }
+                }
+            }
+		}
+	},
+    "definitions": {
+        "errors": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "userMessage": {
+                        "type": "string"
+                    },
+                    "systemMessage": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "order": {
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description":"Order status.",
+                    "enum": [
+                        "COMPLETED",
+                        "IN_PROGRESS",
+                        "CANCELLED"
+                    ]
+                },
+                "purchaseDate": {
+                    "type": "object",
+                    "description":"Date on which order is placed.",
+					"properties": {
+						"display": {
+							"type": "string",
+							"description":"Display Value for purchase date. Like March 24, 2017 11:04:41 PM"
+						},
+						"value":{
+							"type": "string",
+							"description":"Purchase date in milliseconds."
+						}
+					}
+                },
+				"orderNumber": {
+					"type": "string",
+                    "description":"Commerce platform generated order number."
+				},
+				"extOrderId": {
+					"type": "string",
+                    "description":"Commerce platform specific encoded order number which is used to get the order details."
+				},
+                "tax": {
+                    "type": "object",
+					"properties": {
+						"totalTax": {
+							"$ref": "#/definitions/price",
+							"description": "Sum of all taxes"
+						},
+						"countyTax": {
+							"$ref": "#/definitions/price",
+							"description": "County tax details"
+						},
+						"federalTax": {
+							"$ref": "#/definitions/price",
+							"description": "Federal tax details"
+						},
+						"stateTax": {
+							"$ref": "#/definitions/price",
+							"description": "State tax details"
+						}
+					}
+                },
+				"total":{
+					"$ref": "#/definitions/price",
+					"description": "Order total."
+				},
+				"payment":{
+					"$ref": "#/definitions/paymentDetails",
+					"description": "Payment details."
+				},
+				"discount": {
+					"$ref": "#/definitions/price",
+					"description": "Total discount on the order."
+				},
+				"finance": {
+					"type": "object",
+					"properties": {
+						"disclosureUrl": {
+							"type": "string",
+							"description":"It is Docusign URL."
+						},
+						"documentId": {
+							"type": "string",
+							"description":"It is document id from Docusign."
+						},
+						"eipPlanId": {
+							"type": "string",
+							"description":"This is EIP plan id from Loan and Lease system."
+						},
+						"status": {
+							"type": "string",
+							"description":"Indicates the status of the EIP agreements."
+						}			
+					}
+				},
+                "addresses": {
+					"type": "object",
+					"properties": {
+						"addresses": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/address"
+							}
+						}
+					}
+				},
+                "shippingInfo": {
+					"type":"object",
+					"properties": {
+						"carrier": {
+							"type": "string",
+							"description":"Shipping carrier for the order."
+						},
+						"displayName": {
+							"type": "string",
+							"description":"Display name for the shipping option for the order."
+						},
+						"shippingCost": {
+							"$ref": "#/definitions/price",
+							"description": "Shipping Cost."
+						}
+					}
+				},
+                "orderItems": {
+					"$ref": "#/definitions/orderItemDetails",
+					"description": "Items in the order."
+				},
+                "promotions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/promotion",
+                        "description": "Promotion Details"
+                    }
+                }	
+            }
+        },
+		"accessory": {
+            "$ref": "#/definitions/product",
+            "description": "Details of the accessory"
+        },
+		"orderItemDetails": {
+            "type": "object",
+            "properties": {
+                "accessories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/accessory"
+                    }
+                },
+                "accessoriesEipEligible": {
+                    "type": "boolean",
+                    "description": "If true then,the accessory is eligible for EIP"
+                },
+                "accessoriesTotal": {
+                    "$ref": "#/definitions/price",
+                    "description": "Total cost of the all accessories in a cart"
+                },
+                "lines": {
+                    "type": "array",
+                    "description": "Line Details",
+                    "items": {
+                        "$ref": "#/definitions/line"
+                    }
+                },
+                "devices": {
+                    "type": "array",
+                    "description": "list of standalone devices in cart outside of line context",
+                    "items": {
+                        "$ref": "#/definitions/product"
+                    }
+                },
+                "rateplan": {
+                    "$ref": "#/definitions/product",
+                    "description": "Account level rate plan details"
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/product",
+                        "description": "Account level Services details"
+                    }
+                }
+            }
+        },
+		"line": {
+            "type": "object",
+            "properties": {
+                "lineNo": {
+                    "type": "string",
+                    "description": "Line No is the decimal numbering for line used to drive display sequencing."
+                },
+                "lineType": {
+                    "type": "string",
+                    "description": "Line type indicates if line is voice or data."
+                },
+                "lineName": {
+                    "type": "string",
+                    "description":  "Friendly name assigned by the API consumer. ex. John's line"
+                },
+                "transactionCode":{
+                    "type": "string",
+                    "description": "Line level status code indicating the transaction type in cart. This is used to enforce business logic & drive backend processing. Clients are expected to set this when creating a line."
+                },
+                "device": {
+                    "$ref": "#/definitions/product",
+                    "description": "Device Details"
+                },
+                "plan": {
+                    "$ref": "#/definitions/product",
+                    "description": "Plan details"
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/product",
+                        "description": "Services details"
+                    }
+                },
+                "simKit": {
+                    "$ref": "#/definitions/simKit",
+                    "description": "Sim card Details"
+                },
+                "tradeIn": {
+                    "$ref": "#/definitions/tradeIn",
+                    "description": "Trade in device details. This is applicable when old device is being traded in."
+                },
+                "pricing": {
+                    "$ref": "#/definitions/price",
+                    "description": "Line Pricing details"
+                },
+                "deviceProtection": {
+                    "type": "object",
+                    "properties": {
+                        "versionId": {
+                            "type": "string"
+                        },
+                        "date": {
+                            "type": "string"
+                        },
+                        "selected": {
+                            "enum": [
+                                "ACCEPTED",
+                                "DECLINED"
+                            ],
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "tradeIn": {
+            "type": "object",
+            "properties": {
+                "tradeInPayNowAmount": {
+                    "$ref": "#/definitions/price"
+                },
+                "tradeInMonthlyAmount": {
+                    "$ref": "#/definitions/price"
+                },
+                "disposition": {
+                    "type": "string",
+                    "description": "dispostion from the user. ACCEPT or ACCEPT DEFERRED"
+                },
+                "deviceMake": {
+                    "type": "string",
+                    "description": "Manufacturer of the trade in device"
+                },
+                "deviceModel": {
+                    "type": "string",
+                    "description": "Model of the trade in device"
+                },
+                "deviceCarrier": {
+                    "type": "string",
+                    "description": "Current carrier of the device being traded in"
+                },
+                "deviceIMEI": {
+                    "type": "string",
+                    "description": "IMEI of the device being traded in"
+                },
+                "quoteId": {
+                    "type": "string",
+                    "description": "Tradein Quote id from the financial system"
+                }
+            }
+        },
+		"simKit": {
+            "type": "object",
+            "description": "Sim card details",
+            "properties": {
+                "sku": {
+                    "type": "string",
+                    "description": "Sim card Sku"
+                },
+                "displayName": {
+                    "type": "string",
+                    "description": "Name of the sim kit"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "pricing": {
+                    "$ref": "#/definitions/price",
+                    "description": "Simcard pricing details"
+                }
+            }
+        },
+		"product": {
+            "type": "object",
+            "properties": {
+                "availability": {
+                    "enum": [
+                        "AVAILABLE",
+                        "BACKORDER",
+                        "PRE-ORDER"
+                    ],
+                    "type": "string",
+                    "description": "Availablity of the product"
+                },
+                "availableFromDate": {
+                    "type": "string",
+                    "description": "The availability start date for the product if it is currently not available."
+                },
+                "availableToDate": {
+                    "type": "string",
+                    "description": "The availability end date for the product if it is currently not available."
+                },
+                "id": {
+                    "type": "string",
+                    "description": "Id of the item. It can be lineId/Device Id/Service Id/accessory Id/plan Id"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "pricingOptions": {
+                    "type": "string",
+                    "description": "Pricing option selected"
+                },
+                "color": {
+                    "type": "string",
+                    "description": "Color of the Product"
+                },
+                "colorSwatch": {
+                    "type": "string",
+                    "description": "Image of the color"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of the Product"
+                },
+                "familyId": {
+                    "type": "string",
+                    "description": "Family Id of the Product"
+                },
+                "familyName": {
+                    "type": "string",
+                    "description": "Family name of the Product"
+                },
+                "legalText": {
+                    "type": "string"
+                },
+                "memory": {
+                    "type": "string",
+                    "description": "Memory Capacity"
+                },
+                "memoryUOM": {
+                    "type": "string",
+                    "description": "Unit of memory"
+                },
+                "offerId": {
+                    "type": "string",
+                    "description": "Offer ID"
+                },
+                "offerName": {
+                    "type": "string",
+                    "description": "Offer Name"
+                },
+                "clubTier": {
+                    "description": "The device tier for club  pricing",
+                    "type": "string"
+                },
+                "taxInclusive": {
+                    "description": "Identifies if the tax is included in the pricing",
+                    "type": "boolean"
+                },
+                "productImageURL": {
+                    "type": "string",
+                    "description": "URL for the Product Image"
+                },
+                "productSubType": {
+                    "type": "string",
+                    "description": "The product subtype such as Handset/Tablet/Simcard"
+                },
+                "productType": {
+                    "type": "string",
+                    "description": "Type of the product, It can be either Device/Accessory"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "description": "Number of items"
+                },
+                "sku": {
+                    "type": "string",
+                    "description": "Product sku"
+                },
+                "skuName": {
+                    "type": "string",
+                    "description": "Product name"
+                },
+                "SOCs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "price": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "format": "float",
+                    "description": "Amount value like 799.99"
+                },
+                "currency": {
+                    "type": "string",
+                    "description": "Name of currency like USD"
+                },
+                "display": {
+                    "type": "string",
+                    "description": "Display Amount value like $799.99."
+                }
+            }
+        },
+		"address": {
+			"type": "object",
+            "properties": {
+				"firstName": {
+                    "type": "string",
+                    "description": "First Name on Address"
+                },
+				"lastName": {
+                    "type": "string",
+                    "description": "Last Name  on Address"
+                },
+                "address1": {
+                    "type": "string",
+                    "description": "street address or Address Line 1"
+                },
+                "address2": {
+                    "type": "string",
+                    "description": "extended address or Address Line 2. ex. Apt/Unit etc."
+                },
+                "country": {
+                    "type": "string",
+                    "description": "Country name"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "State"
+                },
+                "city": {
+                    "type": "string",
+                    "description": "city"
+                },
+                "zipCode": {
+                    "type": "string",
+                    "description": "postal code"
+                },
+                "zipCodeExtension": {
+                    "type": "string",
+                    "description": "4 digit postal code extension"
+                },
+                "externalAddressId": {
+                    "type": "string",
+                    "description": "externalAddressId. Some backend processing systems need this."
+                },
+				"geoTaxKeyO": {
+                    "type": "string",
+                    "description": "Tax Code corresponding to the geoLoca used by Vertex-O. Some backend processing systems need this."
+                },
+				"geoTaxKeyQ": {
+                    "type": "string",
+                    "description": "Tax Code corresponding to the geoLoca used by Vertex-Q. Some backend processing systems need this."
+                },
+				"latitude": {
+                    "type": "string",
+                    "description": "latitude. Some backend systems may need this"
+                },
+				"longitude": {
+                    "type": "string",
+                    "description": "longitude. Some backend systems may need this"
+                },
+				"overrideIndicator": {
+                    "type": "string",
+                    "description": "Flag indicating if the suggested address was overridden by User"
+                },
+				"resultNumber": {
+                    "type": "string",
+                    "description": "resultNumber from Address Validation system. Some backend systems need this."
+                },
+				"addressType": {
+                    "type": "string",
+					"description": "Type of address.",
+                    "enum": [
+                        "BILLING",
+                        "SHIPPING",
+                        "PPU",
+                        "E911"
+                    ]
+                }			
+            }	
+		},
+        "promotion": {
+            "type": "object",
+            "properties": {
+                "promoType": {
+                    "type": "string",
+                    "description": "Type of Promo Applied"
+                },
+                "promoCode": {
+                    "type": "string",
+                    "description": "Promo code to be applied"
+                },
+                "promoId": {
+                    "type": "string",
+                    "description": "Promo ID"
+                },
+                "promoTitle": {
+                    "type": "string",
+                    "description": "Name of the promo applied"
+                },
+                "discountValue": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+		"paymentDetails":{
+			"type": "object",
+			"properties": {				
+				"holderName": {
+					"type":"string",
+					"description": "Payment type holder name."
+				},
+				"referenceId": {
+					"type":"string",
+					"description": "Reference Id for the payment transaction."
+				},
+				"authorizationCode": {
+					"type":"string",
+					"description": "Authorization code for the payment transaction."
+				},
+				"requestToken": {
+					"type":"string",
+					"description": "Pyament token for the payment transaction."
+				},
+				"paymentMethod": {
+                    "type": "string",
+					"description":"It is field which is used to specify the payment method for the payments."
+                },
+                "cardNumber": {
+                    "type": "string",
+					"description":"Card number for the payment."
+                },
+                "customerPresentIndicator": {
+                    "type": "string",
+					"description":"customerPresentIndicator"
+                },
+                "cardTypeIndicator": {
+                    "type": "string",
+					"description":"Indicator for the card type. Some backend processing systems need this."
+                },
+                "electronicAuthenticationCapability": {
+                    "type": "string",
+					"description":"electronicAuthenticationCapability"
+                },
+                "expirationMonth": {
+                    "type": "string",
+					"description":"Expiry month for the payment type used of the order."
+                },
+                "expirationYear": {
+                    "type": "string",
+					"description":"Expiry year for the payment type used of the orde"
+                },
+                "macAddress": {
+                    "type": "string",
+					"description":"Mac address of the customer from where payment details are provided."
+                },
+                "storePaymentMethodIndicator": {
+                    "type": "string",
+					"description":"Indicator to show that payment method is stored."
+                },
+                "terminalEntryCapability": {
+                    "type": "string",
+					"description":"terminalEntryCapability"
+                },
+                "terminalEntryMode": {
+                    "type": "string",
+					"description":"terminalEntryMode"
+                },
+                "terminalType": {
+                    "type": "string",
+					"description":"terminalType"
+                },
+                "encryptionTarget": {
+                    "type": "string",
+					"description":"encryptionTarget"
+                },
+                "encryptedContent": {
+                    "type": "string",
+					"description":"encryptedContent"
+                },
+                "track2Data": {
+                    "type": "string",
+					"description":"track2Data"
+                },
+                "typeCode": {
+                    "type": "string",
+					"description":"typeCode"
+                },
+                "settlementIndicator": {
+                    "type": "string",
+					"description":"Indicator for the settlement of the payment transaction."
+                }
+			}
+		}
+		
+    }
+}

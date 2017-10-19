@@ -1,0 +1,355 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "TMO Nextgen mock APIs",
+        "contact": {
+            "email": "jagdeep.soni@t-mobile.com"
+        }
+    },
+    "host": "localhost:10010",
+    "basePath": "/",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/checkout/updateProfile": {
+            "x-swagger-router-controller": "checkout",
+            "post": {
+                "description": "Checkout request response structure",
+                "operationId": "updateProfile",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "body",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/profile"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/CartResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+         "/checkout/updateAddress": {
+            "x-swagger-router-controller": "checkout",
+            "post": {
+                "description": "Checkout request response structure",
+                "operationId": "updateAddress",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "body",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/address"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/CartResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+         "/checkout/shippingOptions": {
+            "x-swagger-router-controller": "checkout",
+            "get": {
+                "description": "Checkout request response structure",
+                "operationId": "shippingOptions",
+                "parameters":[
+                        {
+                            "name": "authToken",
+                            "in": "header",
+                            "description": "Header param: auth token : 54920675-c864-497c-a1cf-c2e9a5668deb ",
+                            "required": true,
+                            "type": "string",
+                            "format": "string"
+                        },
+                        {
+                            "name": "cartId",
+                            "in": "header",
+                            "description": "Header param: unique cart identifier",
+                            "required": true,
+                            "type": "string",
+                            "format": "string"
+                        }
+                ],
+                
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/CartResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/checkout/submitCreditCard": {
+            "x-swagger-router-controller": "checkout",
+            "post": {
+                "description": "Checkout request response structure",
+                "operationId": "submitCreditCard",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "body",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/creditCardDetails"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/CartResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/checkout/submitCreditCheck": {
+            "x-swagger-router-controller": "checkout",
+            "post": {
+                "description": "Checkout request response structure",
+                "operationId": "submitCreditCheck",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "body",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/creditCheck"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/CartResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/swagger": {
+            "x-swagger-pipe": "swagger_raw"
+        }
+    },
+    "definitions": {
+        "CartResponse": {
+            "required": [
+                "data"
+            ],
+            "properties": {
+                "data": {
+                    "type": "object"
+                }
+            }
+        },
+        "ErrorResponse": {
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "profile": {
+            "properties": {
+                "aggreementVersionId": {
+                    "type": "string"
+                  },
+                "firstName": {
+                    "type": "string"
+                },
+                "middleName": {
+                    "type": "string"
+                },
+				"lastName": {
+					"type": "string"
+				},
+				"dateAndTime": {
+                    "type": "string",
+                    "description":"Format TBD"
+                },
+				"phoneNo": {
+					"type": "string"
+				},
+				"carrier": {
+					"type": "string"
+				},
+                "emailId": {
+					"type": "string"
+				},
+                "creditLevel": {
+					"type": "string"
+				}
+                
+				
+            },
+            "example":{
+                    "aggreementVersionId": "1.1",
+                    "firstName": "TMNG_1",
+                    "middleName": "TMNG_2",
+                    "lastName": "TMNG_3",
+                    "orderId": "",
+                    "dateAndTime": "",
+                    "phoneNo":"1234567891",
+                    "carrier": "At&T",
+                    "emailId": "test@test.com",
+                    "creditLevel":"NONE"
+            }
+        },
+        "creditCardDetails":{
+             "properties": {
+            "card-number": {
+                "type":"string"
+            },
+            "card-type": {
+                "type":"string"
+            },
+            "cvv": {
+                "type":"string"
+            },
+            "expiry-month": {
+                "type":"string"
+            },
+            "expiry-year": {
+                "type":"string"
+            },
+            "name-on-card": {
+                "type":"string"
+            }
+          },
+          "example":{
+               "card-number": "4111111111111111",
+                "card-type": "VS",
+                "cvv": "111",
+                "expiry-month": "02",
+                "expiry-year": "2020",
+                "name-on-card": "TMNG Test"
+          }
+        },
+        "creditCheck":{
+            "properties":{
+                 "bday": {
+                "type":"string",
+                "description":"Format - MM/dd/yyyy"
+            },
+            "expiry-date": {
+                "type":"string",
+                "description":"Format - MM/dd/yyyy"
+            },
+            "id-type": {
+                "type":"string"
+            },
+            "id-value": {
+                "type":"string"
+            },
+            "region": {
+                "type":"string"
+            },
+            "social-security-number": {
+                "type":"string"
+            }
+         },
+         "example":{
+            "bday": "04/25/1985",
+            "expiry-date": "02/10/2021",
+            "id-type": "Drivers",
+            "id-value": "XXXXXXXXXXXX",
+            "region": "WA",
+            "social-security-number": "124193287"
+            }
+           
+        },
+         "address":{
+              "properties": {
+                "shippingAddress":{
+                    "type":"object"
+                },
+                "billingAddress":{
+                     "type":"object"
+                }
+            },
+            "example":{
+                "shippingAddress": {
+                    "country-name": "US",
+                    "locality": "test",
+                    "postal-code": "98201",
+                    "region": "WA",
+                    "street-address": " 19812 NE Avenue",
+                    "addressLine2": "Apt # 123",
+                    "isShippingAddressasBilling": "true"
+                },
+                "billingAddress": {
+                    "country-name": "US",
+                    "locality": "test1",
+                    "postal-code": "35806",
+                    "region": "AL",
+                    "street-address": " 19812 NE Avenue",
+                    "addressLine2": "Apt 6"
+                }
+            }
+         }
+    }
+}

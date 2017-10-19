@@ -1,0 +1,315 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Authentication",
+    "description": "Digital Commerce Authentication APIs",
+    "version": "1.0.0"
+  },
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/v2",
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+	  "/tokens": {
+      "post": {
+				"operationId": "createAuthTokenApi",
+				"summary": "This API is used to create a token. The token is used as authorization for all API calls.",
+				"description": "OAuth compliant token issued by commerce platform. It should be passed as bearer auth token. This is typically the first call, client should be making when they start interacting with commerce. Client should be responsible that grant and revoke calls of the commerce token are synchronized with any other customer token that client aplication maintains.",
+				"parameters": [
+				  {
+					"name": "Content-Type",
+					"in": "header",
+					"type": "string",
+					"required": true,
+					"description": "Request message format as application/json or application/xml (default assumed application/json)"
+				  },
+				  {
+					"name": "Accept",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+				  },
+				  {
+					"name": "api-version",
+					"in": "header",
+					"type": "string",
+					"required": false,
+					"description": "API version."
+				  },
+                  {
+                    "name": "interactionId",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                  },
+                  {
+                    "name": "channelId",
+                    "in": "header",
+                    "type": "string",
+					"enum": [
+                        "WEB",
+                        "RETAIL",
+						"CARE",
+						"NA"
+					],
+                    "required": true,
+                    "description": "Channel identifier. NA is treated as default."
+                  },
+                  {
+                    "name": "applicationId",
+                    "in": "header",
+                    "type": "string",
+					"enum": [
+                        "TMO",
+                        "MYTMO",
+						"NA"
+					],
+                    "required": true,
+                    "description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+                  },
+                  {
+                    "name": "storeId",
+                    "in": "header",
+                    "type": "string",
+                    "required": false,
+                    "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                  },
+				  {
+					"name": "body",
+					"in": "body",
+					"required": true,
+					"description": "Request details for the authentication request.",
+					"schema": {
+					  "$ref": "#/definitions/authRequest"
+					}
+				  }
+		  
+        ],
+        "tags": [
+          "Tokens"
+        ],
+        "responses": {
+          "200": {
+            "description": "Authentication token Details",
+            "schema": {
+              "$ref": "#/definitions/authResponse"
+            }
+          },
+          "400": {
+            "description": "invalid request",
+            "schema": {
+              "$ref": "#/definitions/errors"
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "$ref": "#/definitions/errors"
+            }
+          },
+          "500": {
+            "description": "Unanticipated error",
+            "schema": {
+              "$ref": "#/definitions/errors"
+            }
+          },
+          "503": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/errors"
+            }
+          }
+        }
+      },
+	  	"delete" :{
+		    "operationId": "Delete token API.",
+				"summary": "This API is used to delete the token.",
+				"description": "This API is used to revoke the access basically when customer logs out.",
+				"parameters": [
+					  {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                      },
+					  {
+						"name": "Content-Type",
+						"in": "header",
+						"type": "string",
+						"required": true,
+						"description": "Request message format as application/json or application/xml (default assumed application/json)"
+					  },
+					  {
+						"name": "Accept",
+						"in": "header",
+						"type": "string",
+						"required": false,
+						"description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+					  },
+					  {
+						"name": "api-version",
+						"in": "header",
+						"type": "string",
+						"required": false,
+						"description": "API version."
+					  },
+					  {
+						"name": "interactionId",
+						"in": "header",
+						"type": "string",
+						"required": true,
+						"description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+					  },
+					  {
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					  },
+					  {
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					  },
+					  {
+						"name": "storeId",
+						"in": "header",
+						"type": "string",
+						"required": false,
+						"description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+					  }
+			  
+				],
+				"tags": [
+			  	"Tokens"
+				],
+				"responses": {
+			  	"200": {
+						"description": "Token deleted Successfully."
+			  	},
+			  	"400": {
+						"description": "invalid request",
+						"schema": {
+							"$ref": "#/definitions/errors"
+						}
+			  	},
+			  	"404": {
+						"description": "Not found",
+						"schema": {
+				  		"$ref": "#/definitions/errors"
+						}
+			  	},
+			  	"500": {
+						"description": "Unanticipated error",
+						"schema": {
+				  		"$ref": "#/definitions/errors"
+						}
+			  	},
+			  	"503": {
+						"description": "Unexpected error",
+						"schema": {
+				  		"$ref": "#/definitions/errors"
+						}
+			  	}
+				}
+	  	}
+    }
+  },
+  "definitions": {
+     "errors": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "userMessage": {
+                        "type": "string"
+                    },
+                    "systemMessage": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+	"authResponse": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string",
+		  "description":"OAuth compliant Token issued by commerce platform."
+        },
+        "expiresIn": {
+          "type": "string",
+		  "description":"Token expiry time in milliseconds."
+        }
+      }
+    },
+	"authRequest": {
+      "type": "object",
+	  "required": [
+     	"grantType",
+		"scope",
+		"role"				
+      ],
+      "properties": {
+        "grantType": {
+          "type": "string",
+		  "description":"Grant type associated with OAuth.",
+        },
+        "scope": {
+          "type": "string",
+		  "description":"scope of the request",
+		  "enum": [
+                        "raptor"
+                   ]
+        },
+        "clientId": {
+          "type": "string",
+		  "description":"Client Id is specific to the consumers."
+        },
+		"role":{
+		  "type": "string",
+		  "enum": [
+                        "PUBLIC",
+                        "REGISTERED",
+                        "SUBSCRIBER"
+                   ],
+		  "description":"It is the role defined for the token. It can be PUBLIC/REGISTERED."
+		},
+		"customerId":{
+		  "type": "string",
+		  "description":"Customer Id. It is required field in case of getting the token for registered user."
+		},
+		"accountNumber" : {
+		  "type": "string",
+		  "description":"Customer account number. It is required field in case of getting the token for registered user."
+		},
+		"phoneNumber" : {
+		  "type": "string",
+		  "description":"Customer's phone number. It is optional field."
+		}		
+      }
+    }
+  }
+}

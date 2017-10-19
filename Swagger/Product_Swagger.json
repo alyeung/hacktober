@@ -1,0 +1,1756 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "products",
+        "description": "Digital Commerce Product/Offer APIs",
+        "version": "2.0.0"
+    },
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "basePath": "/v2/products",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/": {
+            "post": {
+                "summary": "Browse/Lookup for products/offers.",
+                "description": "Lookup or search product/offers based on various search criteria. This API can be used to drive Browse and PDP pages.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "body",
+                        "in":   "body",
+                        "description":  "Body of the request containing key value criteria",
+                        "schema": {
+                            "$ref": "#/definitions/productsCriteria"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "Product Browse Details",
+                    "Product Carousal",
+                    "Accessory Browse Details",
+                    "Internet Browse Details",
+                    "featured products detail"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "product details",
+                        "schema": {
+                            "$ref": "#/definitions/productDetails"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "500": {
+                        "description": "Unanticipated error",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    }
+                }
+            }
+        },
+        "/{productID}": {
+            "post": {
+                "summary": "Get product details for specified product family ID. A Product ID in case of a Hard Goods is Device Family (iPhone 6) or in case of Soft Goods is the Plan (ex. Simple Choice 10 GB)",
+                "description": "Get details for specified Product (all SKUs or default SKU)",
+                "parameters": [
+                    {
+                        "name": "productID",
+                        "in": "path",
+                        "description": "Product family ID.",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "body",
+                        "in":   "body",
+                        "description":  "Body of the request containing key value criteria",
+                        "schema": {
+                            "$ref": "#/definitions/productsCriteria"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "Product Details"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "product details",
+                        "schema": {
+                            "$ref": "#/definitions/productDetails"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "404": {
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        },
+                        "description": "Not found"
+                    },
+                    "503": {
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        },
+                        "description": "Unexpected error"
+                    }
+                }
+            }
+        },
+        "/filter-options": {
+            "get": {
+                "summary": "Get available filter criteria for filtering the products/offers",
+                "description": "Get the available filter options",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    }
+                ],
+                "tags": [
+                    "Product Filters",
+                    "Reference Data"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "filter details",
+                        "schema": {
+                            "$ref": "#/definitions/filterDetails"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    }
+                }
+            }
+        },
+        "/sort-options": {
+            "get": {
+                "summary": "Get available sort opions",
+                "description": "Get the available sort options",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    }
+                ],
+                "tags": [
+                    "sort options"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "sort optons",
+                        "schema": {
+                            "$ref": "#/definitions/sortDetails"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    }
+                }
+            }
+        },
+        "/{productID}/relationships": {
+            "post": {
+                "summary": "Get related product details for specified product family ID.",
+                "description": "Get list of related products for the specified product",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "productID",
+                        "in": "path",
+                        "description": "Product family ID",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Request body which contains the query criteria.",
+                        "schema": {
+                            "$ref": "#/definitions/productsCriteria"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "recommendations",
+                    "related products"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "product details",
+                        "schema": {
+                            "$ref": "#/definitions/productDetails"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "404": {
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        },
+                        "description": "Not found"
+                    },
+                    "503": {
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        },
+                        "description": "Unexpected error"
+                    }
+                }
+            }
+        },
+        "/products/prices": {
+            "post": {
+                "summary": "Lookup for products pricing.",
+                "description": "Lookup for product pricing which can also deliver promotional price if promotion details are provided.",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string",
+                        "description": "Format \"Authorization Bearer <<OAuth Token>>\""
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Request message format as application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Content-Types that are acceptable including application/json or application/xml (default assumed application/json)"
+                    },
+                    {
+                        "name": "api-version",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "API version."
+                    },
+					{
+						"name": "channelId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"WEB",
+							"RETAIL",
+							"CARE",
+							"NA"
+						],
+						"required": true,
+						"description": "Channel identifier. NA is treated as default."
+					},
+					{
+						"name": "applicationId",
+						"in": "header",
+						"type": "string",
+						"enum": [
+							"TMO",
+							"MYTMO",
+							"NA"
+						],
+						"required": true,
+						"description": "Consuming Application identifier. NA is treated as default. More values will be added to swagger as clients are onboarded."
+					},
+                    {
+                        "name": "interactionId",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "Alphanumeric value represent a common transaction id across all calls made from UI, while completing all business activity needs of a particular customer."
+                    },
+                    {
+                        "name": "storeId",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Unique identifier for the retail store location. Mandatory for FullService  (Tmobile RETAIL channel). Need to discuss with T-Mobile business liaison if there is a need for Partner to pass their retail Store Id)."
+                    },
+                    {
+                        "name": "body",
+                        "in":   "body",
+                        "description":  "Body of the request",
+                        "schema": {
+                            "$ref": "#/definitions/productsPrice"
+                        },
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "Product Price"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "product price details",
+                        "schema": {
+                            "$ref": "#/definitions/productPriceDetails"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "500": {
+                        "description": "Unanticipated error",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    },
+                    "503": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errorDetails"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "errors": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "userMessage": {
+                        "type": "string"
+                    },
+                    "systemMessage": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "productsCriteria":{
+            "type":"object",
+            "properties":{
+                "sku":{
+                    "type":"string",
+                    "description": "SKU/variant of the offer. If Sku is present, result will contain only one offer and single variant."
+                },
+                "productIds":{
+                    "type":"string",
+                    "description":"Comma separated product Ids"
+                },
+                "productType":{
+                    "type":"string",
+                    "description":"type of products, comma separated values from enum. If not specified defaults to ALL.",
+                    "enum": [
+                            "DEVICE",
+                            "ACCESSORIES",
+                            "WEARABLE",
+                            "TABLET",
+                            "SIMS",
+                            "HOTSPOTS",
+                            "RATEPLAN",
+                            "SERVICE"
+                        ]
+                },
+                "productSubType":{
+                    "type":"string",
+                    "description":"sub type of products. If not specified defaults to ALL.",
+                    "enum": [
+                            "HANDSET",
+                            "SIMS"
+                        ]
+                },
+                "billingType":{
+                    "type":"string",
+                    "description":"Billing Type  prepaid or postpaid",
+                    "enum": [
+                            "PREPAID",
+                            "POSTPAID"
+                        ]
+                },
+                "channel":{
+                    "type":"string",
+                    "description":"Channel of the Offer.",
+                    "enum": [
+                            "WEB",
+                            "RETAIL",
+                            "CARE"
+                        ]
+                },
+                "salesChannel":{
+                    "type":"string",
+                    "description":"Sales Channel of the offer.",
+                     "enum": [
+                            "IN-PERSON",
+                            "ASSISTED"
+                        ]
+                },
+                "salesSubChannel":{
+                    "type":"string",
+                    "description":"Sales Channel of the offer.",
+                     "enum": [
+                            "FULL_SERVICE",
+                            "BD",
+                            "FIN_PARTNER",
+                            "NON_FIN_PARTNER"
+                        ]
+                },
+                "salesSubChannelCategory":{
+                    "type":"string",
+                    "description":"Sales Sub Channel Category.",
+                     "enum": [
+                            "TMOBILE_RETAIL",
+                            "SMB",
+                            "MAJOR_ACCOUNT"
+                        ]
+                },
+                "customerSegment":{
+                    "type":"string",
+                    "description":"Customer segment to which the offer is available.",
+                    "enum": [
+                            "CONSUMER",
+                            "SPECIAL",
+                            "OTHER"
+                        ]
+                },
+                "accountSegment":{
+                    "type":"string",
+                    "description":"Account Segment to which the offers are available.",
+                     "enum": [
+                            "INDIVIDUAL",
+                            "BUSINESS"
+                        ]
+                },
+                "customerId":{
+                    "type":"string",
+                    "description":"Customer ID for the existing customers"
+                },
+                "cartId":{
+                    "type":"string",
+                    "description":"Cart ID to use as context along with LineID for returning the product offers"
+                },
+                "lineId":{
+                    "type":"string",
+                    "description":"Line ID of the cart to use as context for returning the product offers. Cart ID is needed when Line Id is specified."
+                },
+                "orderType":{
+                    "type":"string",
+                    "description":"Sales Sub Channel Category.",
+                    "enum": [
+                            "ACTIVATION",
+                            "ADDLINE",
+                            "UPGRADE",
+                            "CPS"
+                        ]
+                },
+                "postalCode":{
+                    "type":"string",
+                    "description":"Postal code to filter offer availability"
+                },
+                "storeId":{
+                    "type":"string",
+                    "description":"Store Id to use filter offer availability"
+                },
+                "city":{
+                    "type":"string",
+                    "description":"City to filter for offer availability"
+                },
+                "state":{
+                    "type":"string",
+                    "description":"State code to filter for offer availability"
+                },
+                "offerType":{
+                    "type":"string",
+                    "description":"Offer Type",
+                    "enum": [
+                            "HARDGOODS",
+                            "SOFTGOODS"
+                        ]
+                },
+                "offerSubType":{
+                    "type":"string",
+                    "description":"Offer Sub Type for offer availability",
+                    "enum": [
+                            "BASE",
+                            "ADDON"
+                        ]
+                },
+                "sort":{
+                    "type":"string",
+                    "description":"Sort type comma separated values. If not specified defaults to relevance.",
+                    "enum": [
+                            "relevance",
+                            "best-seller",
+                            "rating",
+                            "name",
+                            "price",
+                            "featued"
+                        ]
+                },
+                "sortOrder":{
+                    "type":"string",
+                    "description":"Sort order. If not specified defaults to ascending.",
+                    "enum": [
+                            "ascending",
+                            "descending"
+                        ]
+                },
+                "pageSize":{
+                    "type":"string",
+                    "description":"# of results per page"
+                },
+                "pageNumber":{
+                    "type":"string",
+                    "description":"Page number of the result"
+                },
+                "detailed":{
+                    "type":"string",
+                    "description":"If false -Response will have summary else complete details. Default is false.",
+                    "enum": [
+                            true,
+                            false
+                        ]
+                },
+                "manufacturer":{
+                    "type":"string",
+                    "description":"Manufacturer of the Offer."
+                },
+                "condition":{
+                    "type":"string",
+                    "description":"condition for a hard goods product, comma seperated values e.g. New, Pre-Owned"
+                },
+                "operatingSystem":{
+                    "type":"string",
+                    "description":"operating system for a hard goods product. comma seperated values e.g. Andriod, iOS, windows."
+                },
+                "features":{
+                    "type":"string",
+                    "description":"features comma seperated values e.g. 4G, LTE, Wi-Fi Calling."
+                },
+                "priceRange":{
+                    "type":"string",
+                    "description":"priceRange of product e.g. $0-$15 or $100-$300."
+                },
+                "creditLevel":{
+                    "type":"string",
+                    "description":"Identifies the credit level, which is a bucket of credit classes. ex. GOOD, BUILDING, NONE",
+                    "enum": [
+                            "GOOD",
+                            "BUILDING",
+                            "NONE"
+                        ]
+                },
+                "tacCode":{
+                    "type":"string",
+                    "description":"TAC code for the device SKU."
+                },
+                "relationType": {
+                    "type": "string",
+                    "description":  "The relationship type to filter products by. This is applicable only when querying for relationships.",
+                    "enum": [
+                            "COMPATIBLE",
+                            "FEATURED"
+                        ]
+                }
+            }
+        },
+        "productsPrice":{
+            "type":"object",
+            "properties":{
+              "crpId":{
+                    "type":"string",
+                    "description":"credit risk profile id of the customer in context."
+                },
+                
+                "priceType": {
+                    "type": "array",
+                    "description":"Price type",
+                    "enum": [
+                            "FRP",
+                            "EIP"
+                        ],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "skuCode": {
+                    "type": "array",
+                    "description":"sku codes",
+                    "items": {
+                       "type": "string"
+                    }
+                },
+                "productFamilyCode":{
+                    "type":"string",
+                    "description":"product Family Code."
+                },
+                "promotiondetails":{
+                    "type":"object",
+                    "description":"Details of Promotion for which price is needed.",
+					"properties": {
+						   "promoName": {
+							"type": "string",
+							"description": "promo Name - mandatory if promotional price is required in response"
+						},
+						"salesChannel": {
+							"type": "string",
+							"description": "sales Channel",
+							"enum": ["WEB",
+                  			"IOT",
+                  			"APP",
+                  			"SOCIAL",
+                  			"IVR",
+                  			"RETAIL",
+                  			"CARETELESALES"]
+						},
+						"transactionType": {
+							"type": "string",
+							"description": "transaction Types",
+							"enum": ["ACTIVATION",
+                			"UPGRADE",
+                			"ADDLINE",
+                			"JUMPUPGRADE"]
+						},
+						"tradeInDeviceModel": {
+							"type": "string",
+							"description": "trade In Device Models"
+						}
+					}
+                  
+                }
+            }
+        },
+        "sort": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "label": {
+                        "type": "string"
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "filter": {
+            "type": "object",
+            "properties": {
+                "heading": {
+                    "enum": [
+                        "Manufacturer",
+                        "Condition",
+                        "OS",
+                        "Features",
+                        "Price Range",
+                        "Sort By"
+                    ],
+                    "type": "string"
+                },
+                "details": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "count": {
+                                "type": "number"
+                            },
+                            "value": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "count": {
+                                            "type": "number"
+                                        },
+                                        "filterPath": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "queryParam": {
+                    "enum": [
+                        "manufacturer",
+                        "condition",
+                        "os",
+                        "features",
+                        "priceRange",
+                        "sort"
+                    ],
+                    "type": "string"
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "totalPages": {
+                    "description": "Total pages based on per page record count",
+                    "type": "string"
+                },
+                "pageSize": {
+                    "type": "string"
+                },
+                "currentPageItems": {
+                    "type": "string"
+                },
+                "pageNumber": {
+                    "description": "The current page number",
+                    "type": "string"
+                },
+                "totalRecordCount": {
+                    "type": "string"
+                },
+                "productCriteriaId": {
+                    "type": "string",
+                    "description": "The id representing the input offer criteria."
+                }
+            }
+        },
+        "filterDetails": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/status"
+                },
+                "errors": {
+                    "$ref": "#/definitions/errors"
+                },
+                "filters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/filter"
+                    }
+                }
+            }
+        },
+        "sortDetails": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/status"
+                },
+                "errors": {
+                    "$ref": "#/definitions/errors"
+                },
+                "sortOptions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sort"
+                    }
+                }
+            }
+        },
+         "productPrice": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique ID of the sku"
+                },
+                "price": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+							"crp": {
+								"type": "string",
+								"description":"crp id"
+							},
+							"option": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"priceType": {
+											"type": "string",
+											"description":"price Type"
+										},
+										"listPrice": {
+											"type": "object",
+											"$ref": "#/definitions/price"
+										},
+										"payNowPrice": {
+											"type": "object",
+											"$ref": "#/definitions/price"
+										},
+										"monthlyPrice": {
+											"type": "object",
+											"$ref": "#/definitions/price"
+										},
+										"promotionPrice": {
+											"type": "object",
+											"$ref": "#/definitions/price"
+										}
+									}
+								}
+							}
+						
+						}
+                    }
+                },
+                "promotions": {
+                    "type": "array",
+                    "items": {
+						"properties": {
+							"promoName": {
+							"type": "string",
+							"description":"promo name"
+							},
+							"promoType": {
+								"type": "string",
+								"description":"promo Type"
+							},
+							"shortDescription": {
+								"type": "string",
+								"description":"short Description"
+							},
+							"discountValue": {
+								"type": "object",
+								"$ref": "#/definitions/price"
+							}
+						}
+                    }
+                }
+            }
+         },
+        "product": {
+            "type": "object",
+            "properties": {
+                "offerId": {
+                    "type": "string",
+                    "description": "Unique ID of the offer"
+                },
+                "familyId": {
+                    "type": "string",
+                    "description": "Family Id is same as offer Id for hard goods but may be different for soft goods"
+                },
+                "familyName": {
+                    "type": "string",
+                    "description": "Family name of the offer"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Short description of the offer"
+                },
+                "longDescription": {
+                    "type": "string",
+                    "description": "Long description of the offer"
+                },
+                "offerSubtype": {
+                    "type": "string",
+                    "description": "Offer Sub Type"
+                },
+                "offerType": {
+                    "type": "string",
+                    "description": "Offer Type"
+                },
+                "manufacturer": {
+                    "type": "string",
+                    "description": "Manufacturer of the offer"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Friendly Name of the offer"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of the product"
+                },
+                "subType": {
+                    "type": "string",
+                    "description": "Product sub type"
+                },
+                "displayPriority": {
+                    "type": "string",
+                    "description": "natrual display order of the products"
+                },
+                "colorSwatch": {
+                    "type": "string",
+                    "description": "color swatch when the offer is a hard goods es. device"
+                },
+                "upcId": {
+                    "type": "string",
+                    "description": "UPC id assigned by the manufacturer. applicable for hard goods"
+                },
+                "reviews": {
+                    "type": "string",
+                    "description": "Number of reviews for the product"
+                },
+                "ratingsCount": {
+                    "type": "string",
+                    "description": "Ratings count for the product"
+                },
+                "averageStarRating": {
+                    "type": "string",
+                    "description": "Average star rating for the product."
+                },
+                "ratingSku": {
+                    "type": "string",
+                    "description": "SKU Id for the offer in the review/rating system"
+                },
+                "boxContents": {
+                    "type": "array",
+                    "description": "Box Contents. This is applicable for Hard Goods only",
+                    "items": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "enabled": {
+                    "type": "string",
+                    "description": "Used in the context of service selection. Indicates if the service is available or unavailable."
+                },
+                "selected": {
+                    "type": "string",
+                    "description": "Used in the context of service selection. Indicates if the service is currently selected."
+                },
+                "serviceConfigurationId": {
+                    "type": "string",
+                    "description": "Used in the context of Service selection. This is the service bundle id."
+                },
+                "categories": {
+                    "type": "array",
+                    "description": "List of categories the product belongs to",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "colorsbase": {
+                    "type": "array",
+                    "description": "Color options available",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "condition": {
+                    "type": "string",
+                    "description": "Offer condition. ex. Used, CPO etc"
+                },
+                "defaultCategory": {
+                    "type": "string",
+                    "description": "Default category of the offer"
+                },
+                "defaultColor": {
+                    "type": "string",
+                    "description": "Default color variant of the offer. Applicable mainly for hard goods"
+                },
+                "defaultSKU": {
+                    "type": "string",
+                    "description": "Default SKU of the offer. Applicable for hard goods"
+                },
+                "isBestSeller": {
+                    "type": "string",
+                    "description": "Flag indicating if product is best seller"
+                },
+                "isFeatured": {
+                    "type": "string",
+                    "description": "Flag indicating if product is Featured"
+                },
+                "features": {
+                    "type": "array",
+                    "description": "Collection of product features. Each feature has a name, description and icon URL to drive typical PDP page.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "url": {
+                                "type": "string",
+                                "description": "Relation image path of the icon URL. This is optional."
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the feature"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description of the feature."
+                            }
+                        }
+                    }
+                },
+                "itemDetails": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "Item Id of the product offer"
+                            },
+                            "upc": {
+                                "type": "string",
+                                "description": "SKU Id assigned by the device manufacturer"
+                            },
+                            "isDefaultSKU": {
+                                "type": "boolean",
+                                "description": "Flag indicating if the item is the default sku"
+                            },
+                            "condition": {
+                                "type": "string",
+                                "description": "Condition of the SKU (for hard goods)"
+                            },
+                            "estimatedShippingFromDate": {
+                                "type": "string",
+                                "format":"dateTime",
+                                "description": "Estimated date from which the item may start shipping."
+                            },
+                            "estimatedShippingToDate": {
+                                "type": "string",
+                                "format":"dateTime",
+                                "description": "Estimated date by which the item may be shipped."
+                            },
+                            "color": {
+                                "type": "string",
+                                "description": "Color Variant for the item"
+                            },
+                            "memory": {
+                                "type": "string",
+                                "description": "Memory variant for the item"
+                            },
+                            "averageRating": {
+                                "type": "string",
+                                "description": "Average Rating of the SKU"
+                            },
+                            "reviewCount": {
+                                "type": "integer",
+                                "description": "Count of Reviews of the SKU"
+                            },
+                            "reviewStarImagePath": {
+                                "type": "string",
+                                "description": "Relative Image path for the Star Image used in Reviews/Ratings"
+                            },
+                            "availability": {
+                                "type": "string",
+                                "description": "Represents the availability status of the item ex. In stock or Out of Stock",
+                                "enum":[
+                                    "IN STOCK",
+                                    "OUT OF STOCK",
+                                    "BACK ORDER",
+                                    "PRE ORDER",
+                                    "COMING SOON",
+									"NOT AVAILABLE FOR SALE ONLINE"
+                                ]
+                            },
+                            "badgesAndPromotions": {
+                                "type": "array",
+                                "description":  "Array of badges and promotions",
+								"items": {
+									"type": "object",
+									"properties": {
+										"label": {
+                                           "type": "string",
+											"enum":[
+												"BOGO",
+												"ON SALE",
+												"SPECIAL OFFER",
+												"WEB ONLY",
+												"OTHERS"
+											]
+                                        },
+                                        "value": {
+                                           "type": "string"
+                                        }	
+									}
+								}
+							},
+                            "specifications": {
+                                "type": "array",
+                                "description":  "key value pair data of item specification",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "price": {
+                                "type": "array",
+                                "description":  "Collection of Price options available for this item. Each Credit Class/Credit Level and Pricing option is a unique entry.",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "creditLevel": {
+                                            "type": "string",
+                                            "description": "Identifies the credit level associated with this pricing option (GOOD/BUILDING/NONE). This is used for anonymous user scenario."
+                                        },
+                                        "creditClass": {
+                                            "type": "string",
+                                            "description": "identifies the credit class for a known customer scenario."
+                                        },
+                                        "option": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/pricingOption"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "images": {
+                                "type": "array",
+                                "description":  "Map of image type to relative path of image URLs",
+                                "items": {
+                                    "properties": {
+                                        "imgtype": {
+                                            "type": "string",
+                                            "enum": [
+                                                "PRODUCTIMAGE",
+                                                "FRONTIMAGE",
+                                                "BACKIMAGE",
+                                                "LEFTIMAGE",
+                                                "RIGHTIMAGE",
+                                                "COLORSWATCH"
+                                            ]
+                                        },
+                                        "url": {
+                                            "type": "string",
+                                            "description": "Relative path to the image URLs"
+                                        }
+                                    }
+                                }
+                            },
+							"attributes": {
+                                "type": "array",
+                                "description":  "Key Value pairs of attribute data",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "deviceTier": {
+                                "type": "string",
+                                "description": "Device Tier"
+                            },
+                            "promotions": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/promotion"
+                                }
+                            }
+                        }
+                    }
+                },
+                "operatingSystem": {
+                    "type": "object",
+                    "description":  "Operating System details",
+                    "properties": {
+                        "processor": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "groups": {
+                    "type": "array",
+                    "description":  "Collection of groups that the item belongs to. This could be different than the categories.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tacCodes": {
+                    "type": "string",
+                    "description": "The TAC code is the first 8 digits of the IMEI. Used here to lookup products."
+                }
+            }
+        },
+		"promotion": {
+            "type": "object",
+			"description": "Promotion Offer Details like id, name, description. The price point is factored into the pricing construct for product or cart.",
+            "properties": {
+                "promoId": {
+                    "type": "string",
+                    "description": "System defined Promo ID"
+                },
+                "shortDescription": {
+                    "type": "string"
+                },
+                "longDescription":{
+                    "type": "string"
+                },
+                "promoName": {
+                    "type": "string",
+                    "description": "Name of the promo applied"
+                },
+                "promoType": {
+                    "type": "string",
+                    "description": "Type of Promo Applied. In this case it is Catalog promotion only."
+                },
+                "discountValue": {
+                    "type": "object",
+                    "$ref":"#/definitions/price"
+                }
+            }
+        },
+        "pricingOption": {
+            "type": "object",
+            "description":  "Pricing Option represents the highest level of pricing construct. It summarizes each option by Due Today and Due Monthly price points. The detailed breakup of the pricing optioin is available under price component.",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "payNowPrice": {
+                    "description":  "This is the Due Today Price",
+                    "$ref": "#/definitions/price"
+                },
+                "monthlyPrice": {
+                    "description":  "This is also known as Due Monthly Price",
+                    "$ref": "#/definitions/price"
+                },
+                "component": {
+                    "type": "array",
+                    "description":  "Breakdown of the Due Today and Monthly price",
+                    "items": {
+                        "$ref": "#/definitions/priceComponent"
+                    }
+                }
+            }
+        },
+        "priceComponent": {
+            "type": "object",
+            "description":  "Price Component builds upon the lowest price construct to describe constituent price points for a pricing option. ex. breakup of EIP Due Today",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Identifies the pricing component type",
+                    "enum": [
+                        "premiumFee",
+                        "clubFee",
+                        "deposit",
+                        "depositRefund"
+                    ]
+                },
+                "term": {
+                    "type": "string",
+                    "description":"# of terms, applicable for installment pricing"
+                },
+                "frequency": {
+                    "type": "string",
+                    "description":  "Represents frequency ex. Monthly/one time"
+                },
+                "listPrice": {
+                    "description":  "List Price is also commonly known as Regular Price",
+                    "$ref": "#/definitions/price"
+                },
+                "purchasePrice": {
+                    "description":  "Purchase Price is also commonly known as Sale Price",
+                    "$ref": "#/definitions/price"
+                },
+                "promotion":{
+                    "description":"Total discount amount due to promotions applied to the item",
+                    "$ref":"#/definitions/price"
+                }
+            }
+        },
+        "price": {
+            "type": "object",
+            "description":  "This is the smallest building block for pricing structures",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "display": {
+                    "type": "string"
+                }
+            }
+        },
+        "productDetails": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/status"
+                },
+                "errors": {
+                    "$ref": "#/definitions/errors"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/metadata"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/product"
+                    }
+                },
+                "filters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/filter"
+                    }
+                },
+                "sort": {
+                    "$ref": "#/definitions/sort"
+                }
+            }
+        },
+        "productPriceDetails": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/status"
+                },
+                "errors": {
+                    "$ref": "#/definitions/errors"
+                },
+                "skuItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/productPrice"
+                    }
+                }
+            }
+        },
+        "errorDetails": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/status"
+                },
+                "errors": {
+                    "$ref": "#/definitions/errors"
+                }
+            }
+        },
+        "status": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
