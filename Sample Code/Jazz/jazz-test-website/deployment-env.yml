@@ -1,0 +1,6 @@
+service : jazz-test-website
+domain : ccoe
+create_cloudfront_url : false
+
+owner: kalyansundars@gmail.com
+slack_channel: NA

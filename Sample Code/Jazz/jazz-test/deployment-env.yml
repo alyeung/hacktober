@@ -1,0 +1,15 @@
+service : jazz-test
+artifact: test-1.0.jar
+mainClass: com.slf.services.Handler
+securityGroupIds: sg-8a34ddf8
+subnetIds: subnet-1ec9747a
+providerRuntime : java8
+providerMemorySize : 256
+providerTimeout : 160
+region: us-east-1
+domain : ccoe
+# Put your custom role here which has the IAM permissions required by your code
+iamRoleARN: arn:aws:iam::192006145812:role/jazz-training_lambda2_basic_execution_1
+
+owner: kalyansundars@gmail.com
+slack_channel: NA
