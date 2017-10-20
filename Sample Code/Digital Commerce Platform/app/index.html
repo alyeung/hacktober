@@ -1,0 +1,160 @@
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>DCP</title>
+	<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href='http://fonts.googleapis.com/css?family=Raleway:400,200,600,800,700,500,300,100,900' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Arimo:400,700,700italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="New Fashions Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+	<script src="js/jquery.min.js"></script>	
+	<!-- start menu -->
+	<link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+      <script src="https://code.angularjs.org/1.6.4/angular-route.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js"></script> 
+	<script type="text/javascript" src="js/megamenu.js"></script>
+	<script>
+		$(document).ready(function(){$(".megamenu").megamenu();});
+	</script>
+	<!-- start menu -->
+</head>
+
+<body>
+<div ng-app="myapp">
+         <div ng-controller="ListController">
+         <script src="js/dcp.js" type="text/javascript"></script> 
+	<!--header-->
+	<div class="">
+		<div class="container">
+			<div class="main-header">
+				<div class="carting">
+					<ul>
+						<li>	<button ng-click="auth()">Initialize Cart</button>						
+						</li>
+					</ul>
+				</div>
+				<div class="logo">
+					<h3>
+							<a href="index.html">DCP</a>
+						</h3>
+				</div>
+				<div  class="box_1" >
+					
+						<h3 role="button" ng-click="getCart()" style="cursor: pointer;">Cart:											
+																			
+								<img src="images/cart.png" alt=""/>
+							</h3>
+					
+					<p>	<a href="javascript:;" class="simpleCart_empty">empty cart</a>
+					</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<!-- start header menu -->
+			<ul class="megamenu skyblue">
+				<li class="active grid">	<a class="color1" href="index.html">Home</a>
+				</li>
+			</ul>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<!--header-->
+<!---->
+<div class="features" id="features">
+	 <div class="container">
+		 <div class="tabs-box">			
+		 <div class="clearfix"> </div>
+		 <div class="tab-grids">
+			 <div id="tab1" class="tab-grid1">			   				  
+				 <div class="product-grid">					  
+						<div class="more-product-info"></div>						
+						<div class="product-img b-link-stripe b-animate-go  thickbox">						   
+							<img src="images/line1.png" class="img-responsive" alt=""/>
+							<div class="b-wrapper">
+							<h4 class="b-animate b-from-left  b-delay03">							
+							<button class="btns">ORDER NOW</button>
+							</h4>
+							</div>
+						</div>						
+						<div class="product-info simpleCart_shelfItem">
+							<div class="product-info-cust">
+								<h4>LINE</h4>
+								<span class="item_price">$75.00/MO</span>
+								<input type="text" class="item_quantity" value="1" />								
+								<button class="item_add" ng-click="addLine()">ADD</button>
+							</div>													
+							<div class="clearfix"> </div>
+						</div>
+					</div>			
+					
+					 <div class="product-grid">
+						 <div class="more-product-info"><span>NEW</span></div>						
+						 <div class="product-img b-link-stripe b-animate-go  thickbox">
+							<img src="images/apple-iphone-8.png" class="img-responsive" alt=""/>
+							<div class="b-wrapper">
+							<h4 class="b-animate b-from-left  b-delay03">							
+							<button class="btns">ORDER NOW</button>
+							</h4>
+							</div>
+						 </div>						
+						 <div class="product-info simpleCart_shelfItem">
+							 <div class="product-info-cust">
+								<h4>IPHONE 8</h4>
+								<span class="item_price">$26.00/MO</span>
+								<input type="text" class="item_quantity" value="1" />
+								<button class="item_add" ng-click="addDevice()">ADD</button>
+							 </div>							 				
+							 <div class="clearfix"> </div>
+						 </div>
+					 </div>
+					 <div class="clearfix"></div>
+			 </div>			
+ 
+		 </div>				
+		 </div>
+		 </div>
+		 </div>
+		 
+			<!-- tabs-box -->
+			<!-- Comman-js-files -->
+			<script>
+			$(document).ready(function() {
+				$("#tab2").hide();
+				$("#tab3").hide();
+				$(".tabs-menu a").click(function(event){
+					event.preventDefault();
+					var tab=$(this).attr("href");
+					$(".tab-grid1,.tab-grid2,.tab-grid3").not(tab).css("display","none");
+					$(tab).fadeIn("slow");
+				});
+				$("ul.tabs-menu li a").click(function(){
+					$(this).parent().addClass("active a");
+					$(this).parent().siblings().removeClass("active a");
+				});
+			});
+			</script>
+			<!-- Comman-js-files -->
+
+	<div class="fotter-logo">
+		 <div class="container">
+			<div class="ftr-logo"><h3><a href="index.html">DCP</a></h3></div>
+		 <div class="clearfix"></div>
+		 </div>
+	</div>
+
+</div>
+</div>
+</body>
+</html>

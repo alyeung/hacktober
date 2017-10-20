@@ -1,0 +1,54 @@
+  <body>
+  <div ng-app="myApp" ng-controller="ListController">    
+      <div class='modal-content modal-lg'>
+        <div class='modal-header'>
+          <button type='button' ng-click="xClose()" class='close' data-dismiss='modal' aria-label='Close'>
+            <span aria-hidden='true'>&times;</span>
+          </button>
+          <h4 class='modal-title'>Cart</h4>
+        </div>
+        
+	        <div class='modal-body'>
+	        	
+	          		
+	          		<table class="table table-bordered table-striped table-hover">
+	          			<tr>
+	          				<td class="col-md-02">Cart ID</td>
+	          				<td class="col-md-02">{{carts.cart.cartId}}</td>	          			
+	          			</tr>
+	          			<tr>
+	          				<td class="col-md-02">Cart OrderID</td>
+	          				<td class="col-md-02">{{carts.cart.orderId}}</td>	          			
+	          			</tr>
+	          			<tr>
+	          				<td class="col-md-02">Accessories Price</td>
+	          				<td class="col-md-02">{{carts.cart.accessoriesTotal[0].monthlyPrice.display}} USD</td>	          			
+	          			</tr>
+	          			<tr>
+	          				<td class="col-md-02">Line Price</td>
+	          				<td class="col-md-02">{{carts.cart.lineOfServices[0].plan.pricing.options.monthlyAmount.display}} USD</td>	          			
+	          			</tr> 	          			
+	          			<tr>
+	          				<td class="col-md-02">Device price</td>
+	          				<td class="col-md-02">{{carts.cart.lineOfServices["0"].device.pricing.options.monthlyAmount.display}} USD</td>	          			
+	          			</tr>
+	          			<tr>
+	          				<td class="col-md-02">Discount</td>
+	          				<td class="col-md-02">{{carts.cart.pricing.discounts[0].autoPayAmount.display}} USD</td>	          			
+	          			</tr>
+	          			<tr>
+	          				<td class="col-md-02">Monthly Price</td>
+	          				<td class="col-md-02"> {{carts.cart.pricing.discounts[0].priceAfterDiscount.display}} USD</td>	          			
+	          			</tr>	          			
+	          		</table>          			           			
+	           			          			  
+	           			
+	           			
+	          		        	
+	        	</div>
+	        <div class='modal-footer'>
+	          <button type='button' ng-click="cancel()" class='btn btn-default' >Cancel</button>	          	          
+	        </div>
+        </div>
+      </div>   
+  </body>
